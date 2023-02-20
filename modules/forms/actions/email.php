@@ -18,7 +18,7 @@ class Email extends Action_Base {
 	}
 
 	public function get_label() {
-		return __( 'Email', 'elementor-pro' );
+		return esc_html__( 'Email', 'elementor-pro' );
 	}
 
 	public function register_settings_section( $widget ) {
@@ -36,40 +36,53 @@ class Email extends Action_Base {
 		$widget->add_control(
 			$this->get_control_id( 'email_to' ),
 			[
-				'label' => __( 'To', 'elementor-pro' ),
+				'label' => esc_html__( 'To', 'elementor-pro' ),
 				'type' => Controls_Manager::TEXT,
 				'default' => get_option( 'admin_email' ),
 				'placeholder' => get_option( 'admin_email' ),
 				'label_block' => true,
-				'title' => __( 'Separate emails with commas', 'elementor-pro' ),
+				'title' => esc_html__( 'Separate emails with commas', 'elementor-pro' ),
 				'render_type' => 'none',
+				'dynamic' => [
+					'active' => true,
+				],
 			]
 		);
 
 		/* translators: %s: Site title. */
-		$default_message = sprintf( __( 'New message from "%s"', 'elementor-pro' ), get_option( 'blogname' ) );
+		$default_message = sprintf( esc_html__( 'New message from "%s"', 'elementor-pro' ), get_option( 'blogname' ) );
 
 		$widget->add_control(
 			$this->get_control_id( 'email_subject' ),
 			[
-				'label' => __( 'Subject', 'elementor-pro' ),
+				'label' => esc_html__( 'Subject', 'elementor-pro' ),
 				'type' => Controls_Manager::TEXT,
 				'default' => $default_message,
 				'placeholder' => $default_message,
 				'label_block' => true,
 				'render_type' => 'none',
+				'dynamic' => [
+					'active' => true,
+				],
 			]
 		);
 
 		$widget->add_control(
 			$this->get_control_id( 'email_content' ),
 			[
-				'label' => __( 'Message', 'elementor-pro' ),
+				'label' => esc_html__( 'Message', 'elementor-pro' ),
 				'type' => Controls_Manager::TEXTAREA,
 				'default' => '[all-fields]',
 				'placeholder' => '[all-fields]',
-				'description' => sprintf( __( 'By default, all form fields are sent via %s shortcode. To customize sent fields, copy the shortcode that appears inside each field and paste it above.', 'elementor-pro' ), '<code>[all-fields]</code>' ),
+				'description' => sprintf(
+					/* translators: %s: The [all-fields] shortcode. */
+					esc_html__( 'By default, all form fields are sent via %s shortcode. To customize sent fields, copy the shortcode that appears inside each field and paste it above.', 'elementor-pro' ),
+					'<code>[all-fields]</code>'
+				),
 				'render_type' => 'none',
+				'dynamic' => [
+					'active' => true,
+				],
 			]
 		);
 
@@ -78,27 +91,33 @@ class Email extends Action_Base {
 		$widget->add_control(
 			$this->get_control_id( 'email_from' ),
 			[
-				'label' => __( 'From Email', 'elementor-pro' ),
+				'label' => esc_html__( 'From Email', 'elementor-pro' ),
 				'type' => Controls_Manager::TEXT,
 				'default' => 'email@' . $site_domain,
 				'render_type' => 'none',
+				'dynamic' => [
+					'active' => true,
+				],
 			]
 		);
 
 		$widget->add_control(
 			$this->get_control_id( 'email_from_name' ),
 			[
-				'label' => __( 'From Name', 'elementor-pro' ),
+				'label' => esc_html__( 'From Name', 'elementor-pro' ),
 				'type' => Controls_Manager::TEXT,
 				'default' => get_bloginfo( 'name' ),
 				'render_type' => 'none',
+				'dynamic' => [
+					'active' => true,
+				],
 			]
 		);
 
 		$widget->add_control(
 			$this->get_control_id( 'email_reply_to' ),
 			[
-				'label' => __( 'Reply-To', 'elementor-pro' ),
+				'label' => esc_html__( 'Reply-To', 'elementor-pro' ),
 				'type' => Controls_Manager::SELECT,
 				'options' => [
 					'' => '',
@@ -110,29 +129,35 @@ class Email extends Action_Base {
 		$widget->add_control(
 			$this->get_control_id( 'email_to_cc' ),
 			[
-				'label' => __( 'Cc', 'elementor-pro' ),
+				'label' => esc_html__( 'Cc', 'elementor-pro' ),
 				'type' => Controls_Manager::TEXT,
 				'default' => '',
-				'title' => __( 'Separate emails with commas', 'elementor-pro' ),
+				'title' => esc_html__( 'Separate emails with commas', 'elementor-pro' ),
 				'render_type' => 'none',
+				'dynamic' => [
+					'active' => true,
+				],
 			]
 		);
 
 		$widget->add_control(
 			$this->get_control_id( 'email_to_bcc' ),
 			[
-				'label' => __( 'Bcc', 'elementor-pro' ),
+				'label' => esc_html__( 'Bcc', 'elementor-pro' ),
 				'type' => Controls_Manager::TEXT,
 				'default' => '',
-				'title' => __( 'Separate emails with commas', 'elementor-pro' ),
+				'title' => esc_html__( 'Separate emails with commas', 'elementor-pro' ),
 				'render_type' => 'none',
+				'dynamic' => [
+					'active' => true,
+				],
 			]
 		);
 
 		$widget->add_control(
 			$this->get_control_id( 'form_metadata' ),
 			[
-				'label' => __( 'Meta Data', 'elementor-pro' ),
+				'label' => esc_html__( 'Meta Data', 'elementor-pro' ),
 				'type' => Controls_Manager::SELECT2,
 				'multiple' => true,
 				'label_block' => true,
@@ -146,12 +171,12 @@ class Email extends Action_Base {
 					'credit',
 				],
 				'options' => [
-					'date' => __( 'Date', 'elementor-pro' ),
-					'time' => __( 'Time', 'elementor-pro' ),
-					'page_url' => __( 'Page URL', 'elementor-pro' ),
-					'user_agent' => __( 'User Agent', 'elementor-pro' ),
-					'remote_ip' => __( 'Remote IP', 'elementor-pro' ),
-					'credit' => __( 'Credit', 'elementor-pro' ),
+					'date' => esc_html__( 'Date', 'elementor-pro' ),
+					'time' => esc_html__( 'Time', 'elementor-pro' ),
+					'page_url' => esc_html__( 'Page URL', 'elementor-pro' ),
+					'user_agent' => esc_html__( 'User Agent', 'elementor-pro' ),
+					'remote_ip' => esc_html__( 'Remote IP', 'elementor-pro' ),
+					'credit' => esc_html__( 'Credit', 'elementor-pro' ),
 				],
 				'render_type' => 'none',
 			]
@@ -160,13 +185,13 @@ class Email extends Action_Base {
 		$widget->add_control(
 			$this->get_control_id( 'email_content_type' ),
 			[
-				'label' => __( 'Send As', 'elementor-pro' ),
+				'label' => esc_html__( 'Send As', 'elementor-pro' ),
 				'type' => Controls_Manager::SELECT,
 				'default' => 'html',
 				'render_type' => 'none',
 				'options' => [
-					'html' => __( 'HTML', 'elementor-pro' ),
-					'plain' => __( 'Plain', 'elementor-pro' ),
+					'html' => esc_html__( 'HTML', 'elementor-pro' ),
+					'plain' => esc_html__( 'Plain', 'elementor-pro' ),
 				],
 			]
 		);
@@ -205,7 +230,7 @@ class Email extends Action_Base {
 		$fields = [
 			'email_to' => get_option( 'admin_email' ),
 			/* translators: %s: Site title. */
-			'email_subject' => sprintf( __( 'New message from "%s"', 'elementor-pro' ), get_bloginfo( 'name' ) ),
+			'email_subject' => sprintf( esc_html__( 'New message from "%s"', 'elementor-pro' ), get_bloginfo( 'name' ) ),
 			'email_content' => '[all-fields]',
 			'email_from_name' => get_bloginfo( 'name' ),
 			'email_from' => get_bloginfo( 'admin_email' ),
@@ -255,7 +280,8 @@ class Email extends Action_Base {
 		/**
 		 * Email headers.
 		 *
-		 * Filters the additional headers sent when the form send an email.
+		 * Filters the headers sent when an email is send from Elementor forms. This
+		 * hook allows developers to alter email headers triggered by Elementor forms.
 		 *
 		 * @since 1.0.0
 		 *
@@ -266,7 +292,8 @@ class Email extends Action_Base {
 		/**
 		 * Email content.
 		 *
-		 * Filters the content of the email sent by the form.
+		 * Filters the content of the email sent by Elementor forms. This hook allows
+		 * developers to alter the content of the email sent by Elementor forms.
 		 *
 		 * @since 1.0.0
 		 *
@@ -286,7 +313,8 @@ class Email extends Action_Base {
 		/**
 		 * Elementor form mail sent.
 		 *
-		 * Fires when an email was sent successfully.
+		 * Fires when an email was sent successfully by Elementor forms. This
+		 * hook allows developers to add functionality after mail sending.
 		 *
 		 * @since 1.0.0
 		 *

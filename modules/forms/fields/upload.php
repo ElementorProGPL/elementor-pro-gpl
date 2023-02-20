@@ -20,7 +20,7 @@ class Upload extends Field_Base {
 	}
 
 	public function get_name() {
-		return __( 'File Upload', 'elementor-pro' );
+		return esc_html__( 'File Upload', 'elementor-pro' );
 	}
 
 	/**
@@ -38,32 +38,32 @@ class Upload extends Field_Base {
 		$field_controls = [
 			'file_sizes' => [
 				'name' => 'file_sizes',
-				'label' => __( 'Max. File Size', 'elementor-pro' ),
+				'label' => esc_html__( 'Max. File Size', 'elementor-pro' ),
 				'type' => Controls_Manager::SELECT,
 				'condition' => [
 					'field_type' => $this->get_type(),
 				],
 				'options' => $this->get_upload_file_size_options(),
-				'description' => __( 'If you need to increase max upload size please contact your hosting.', 'elementor-pro' ),
+				'description' => esc_html__( 'If you need to increase max upload size please contact your hosting.', 'elementor-pro' ),
 				'tab' => 'content',
 				'inner_tab' => 'form_fields_content_tab',
 				'tabs_wrapper' => 'form_fields_tabs',
 			],
 			'file_types' => [
 				'name' => 'file_types',
-				'label' => __( 'Allowed File Types', 'elementor-pro' ),
+				'label' => esc_html__( 'Allowed File Types', 'elementor-pro' ),
 				'type' => Controls_Manager::TEXT,
 				'condition' => [
 					'field_type' => $this->get_type(),
 				],
-				'description' => __( 'Enter the allowed file types, separated by a comma (jpg, gif, pdf, etc).', 'elementor-pro' ),
+				'description' => esc_html__( 'Enter the allowed file types, separated by a comma (jpg, gif, pdf, etc).', 'elementor-pro' ),
 				'tab' => 'content',
 				'inner_tab' => 'form_fields_content_tab',
 				'tabs_wrapper' => 'form_fields_tabs',
 			],
 			'allow_multiple_upload' => [
 				'name' => 'allow_multiple_upload',
-				'label' => __( 'Multiple Files', 'elementor-pro' ),
+				'label' => esc_html__( 'Multiple Files', 'elementor-pro' ),
 				'type' => Controls_Manager::SWITCHER,
 				'condition' => [
 					'field_type' => $this->get_type(),
@@ -74,7 +74,7 @@ class Upload extends Field_Base {
 			],
 			'max_files' => [
 				'name' => 'max_files',
-				'label' => __( 'Max. Files', 'elementor-pro' ),
+				'label' => esc_html__( 'Max. Files', 'elementor-pro' ),
 				'type' => Controls_Manager::NUMBER,
 				'condition' => [
 					'field_type' => $this->get_type(),
@@ -109,12 +109,14 @@ class Upload extends Field_Base {
 				'input' . $item_index,
 				[
 					'data-maxsize' => $item['file_sizes'],  //MB
-					'data-maxsize-message' => __( 'This file exceeds the maximum allowed size.', 'elementor-pro' ),
+					'data-maxsize-message' => esc_html__( 'This file exceeds the maximum allowed size.', 'elementor-pro' ),
 				]
 			);
 		}
+		?>
+		<input <?php $form->print_render_attribute_string( 'input' . $item_index ); ?>>
 
-		echo '<input ' . $form->get_render_attribute_string( 'input' . $item_index ) . '>';
+		<?php
 	}
 
 	/**
@@ -196,7 +198,7 @@ class Upload extends Field_Base {
 	}
 
 	/**
-	 * a set of black listed file extensions
+	 * A blacklist of file extensions.
 	 *
 	 * @return array
 	 */
@@ -206,13 +208,17 @@ class Upload extends Field_Base {
 			$blacklist = [ 'php', 'php3', 'php4', 'php5', 'php6', 'phps', 'php7', 'phtml', 'shtml', 'pht', 'swf', 'html', 'asp', 'aspx', 'cmd', 'csh', 'bat', 'htm', 'hta', 'jar', 'exe', 'com', 'js', 'lnk', 'htaccess', 'htpasswd', 'phtml', 'ps1', 'ps2', 'py', 'rb', 'tmp', 'cgi' ];
 
 			/**
-			 * Forms file types black list.
+			 * Elementor forms blacklisted file extensions.
 			 *
-			 * Filters the black list of  file types that won’t be uploaded using the forms.
+			 * Filters the list of file types that won't be uploaded using Elementor forms.
+			 *
+			 * By default Elementor forms doesn't upload some file types for security reasons.
+			 * This hook allows developers to alter this list, either add more file types to
+			 * strengthen the security or remove file types to increase flexibility.
 			 *
 			 * @since 1.0.0
 			 *
-			 * @param array $blacklist A black list of file types.
+			 * @param array $blacklist A blacklist of file extensions.
 			 */
 			$blacklist = apply_filters( 'elementor_pro/forms/filetypes/blacklist', $blacklist );
 		}
@@ -232,17 +238,17 @@ class Upload extends Field_Base {
 
 		if ( ! $upload_errors ) {
 			$upload_errors = [
-				UPLOAD_ERR_OK => __( 'There is no error, the file uploaded with success.', 'elementor-pro' ),
+				UPLOAD_ERR_OK => esc_html__( 'There is no error, the file uploaded with success.', 'elementor-pro' ),
 				/* translators: 1: upload_max_filesize, 2: php.ini */
-				UPLOAD_ERR_INI_SIZE => sprintf( __( 'The uploaded file exceeds the %1$s directive in %2$s.', 'elementor-pro' ), 'upload_max_filesize', 'php.ini' ),
+				UPLOAD_ERR_INI_SIZE => sprintf( esc_html__( 'The uploaded file exceeds the %1$s directive in %2$s.', 'elementor-pro' ), 'upload_max_filesize', 'php.ini' ),
 				/* translators: %s: MAX_FILE_SIZE */
-				UPLOAD_ERR_FORM_SIZE => sprintf( __( 'The uploaded file exceeds the %s directive that was specified in the HTML form.', 'elementor-pro' ), 'MAX_FILE_SIZE' ),
-				UPLOAD_ERR_PARTIAL => __( 'The uploaded file was only partially uploaded.', 'elementor-pro' ),
-				UPLOAD_ERR_NO_FILE => __( 'No file was uploaded.', 'elementor-pro' ),
-				UPLOAD_ERR_NO_TMP_DIR => __( 'Missing a temporary folder.', 'elementor-pro' ),
-				UPLOAD_ERR_CANT_WRITE => __( 'Failed to write file to disk.', 'elementor-pro' ),
+				UPLOAD_ERR_FORM_SIZE => sprintf( esc_html__( 'The uploaded file exceeds the %s directive that was specified in the HTML form.', 'elementor-pro' ), 'MAX_FILE_SIZE' ),
+				UPLOAD_ERR_PARTIAL => esc_html__( 'The uploaded file was only partially uploaded.', 'elementor-pro' ),
+				UPLOAD_ERR_NO_FILE => esc_html__( 'No file was uploaded.', 'elementor-pro' ),
+				UPLOAD_ERR_NO_TMP_DIR => esc_html__( 'Missing a temporary folder.', 'elementor-pro' ),
+				UPLOAD_ERR_CANT_WRITE => esc_html__( 'Failed to write file to disk.', 'elementor-pro' ),
 				/* translators: %s: phpinfo() */
-				UPLOAD_ERR_EXTENSION => sprintf( __( 'A PHP extension stopped the file upload. PHP does not provide a way to ascertain which extension caused the file upload to stop; examining the list of loaded extensions with %s may help.', 'elementor-pro' ), 'phpinfo()' ),
+				UPLOAD_ERR_EXTENSION => sprintf( esc_html__( 'A PHP extension stopped the file upload. PHP does not provide a way to ascertain which extension caused the file upload to stop; examining the list of loaded extensions with %s may help.', 'elementor-pro' ), 'phpinfo()' ),
 			];
 			$this->fix_file_indices();
 		}
@@ -284,12 +290,12 @@ class Upload extends Field_Base {
 
 			// valid file type?
 			if ( ! $this->is_file_type_valid( $field, $file ) ) {
-				$ajax_handler->add_error( $id, __( 'This file type is not allowed.', 'elementor-pro' ) );
+				$ajax_handler->add_error( $id, esc_html__( 'This file type is not allowed.', 'elementor-pro' ) );
 			}
 
 			// allowed file size?
 			if ( ! $this->is_file_size_valid( $field, $file ) ) {
-				$ajax_handler->add_error( $id, __( 'This file exceeds the maximum allowed size.', 'elementor-pro' ) );
+				$ajax_handler->add_error( $id, esc_html__( 'This file exceeds the maximum allowed size.', 'elementor-pro' ) );
 			}
 		}
 	}
@@ -304,13 +310,16 @@ class Upload extends Field_Base {
 		$path = $wp_upload_dir['basedir'] . '/elementor/forms';
 
 		/**
-		 * Upload file path.
+		 * Elementor forms upload file path.
 		 *
 		 * Filters the path to a file uploaded using Elementor forms.
 		 *
+		 * By default Elementor forms defines a path to uploaded file. This
+		 * hook allows developers to alter this path.
+		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $url File URL.
+		 * @param string $path Path to uploaded files.
 		 */
 		$path = apply_filters( 'elementor_pro/forms/upload_path', $path );
 
@@ -329,14 +338,17 @@ class Upload extends Field_Base {
 		$url = $wp_upload_dir['baseurl'] . '/elementor/forms/' . $file_name;
 
 		/**
-		 * Upload file URL.
+		 * Elementor forms upload file URL.
 		 *
 		 * Filters the URL to a file uploaded using Elementor forms.
 		 *
+		 * By default Elementor forms defines a URL to uploaded file. This
+		 * hook allows developers to alter this URL.
+		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $url       File URL.
-		 * @param string $file_name File name.
+		 * @param string $url       Upload file URL.
+		 * @param string $file_name Upload file name.
 		 */
 		$url = apply_filters( 'elementor_pro/forms/upload_url', $url, $file_name );
 
@@ -435,10 +447,10 @@ class Upload extends Field_Base {
 						]
 					);
 				} else {
-					$ajax_handler->add_error( $id, __( 'There was an error while trying to upload your file.', 'elementor-pro' ) );
+					$ajax_handler->add_error( $id, esc_html__( 'There was an error while trying to upload your file.', 'elementor-pro' ) );
 				}
 			} else {
-				$ajax_handler->add_admin_error_message( __( 'Upload directory is not writable or does not exist.', 'elementor-pro' ) );
+				$ajax_handler->add_admin_error_message( esc_html__( 'Upload directory is not writable or does not exist.', 'elementor-pro' ) );
 			}
 		}
 	}

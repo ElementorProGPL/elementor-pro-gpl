@@ -17,7 +17,7 @@ class Form_Record {
 
 	public function get_formatted_data( $with_meta = false ) {
 		$formatted = [];
-		$no_label = __( 'No Label', 'elementor-pro' );
+		$no_label = esc_html__( 'No Label', 'elementor-pro' );
 		$fields = $this->fields;
 
 		if ( $with_meta ) {
@@ -50,9 +50,8 @@ class Form_Record {
 			/**
 			 * Elementor form field validation.
 			 *
-			 * Fires when a single form field is being validated.
-			 *
-			 * It allows developers to validate individual field types.
+			 * Fires when a single form field is being validated. This hook allows developers
+			 * to validate individual field types.
 			 *
 			 * The dynamic portion of the hook name, `$field_type`, refers to the field type.
 			 *
@@ -68,7 +67,8 @@ class Form_Record {
 		/**
 		 * Elementor form validation.
 		 *
-		 * Fires when form fields are being validated.
+		 * Fires when form fields are being validated. This hook allows developers
+		 * to validate all form fields.
 		 *
 		 * @since 2.0.0
 		 *
@@ -91,9 +91,8 @@ class Form_Record {
 			/**
 			 * Elementor form field process.
 			 *
-			 * Fires when a single form field is being processed.
-			 *
-			 * It allows developers to process individual field types.
+			 * Fires when a single form field is being processed. This hook allows developers
+			 * to process individual field types.
 			 *
 			 * The dynamic portion of the hook name, `$field_type`, refers to the field type.
 			 *
@@ -109,7 +108,8 @@ class Form_Record {
 		/**
 		 * Elementor form process.
 		 *
-		 * Fires when form fields are being processed.
+		 * Fires when form fields are being processed. This hook allows developers
+		 * to process all form fields.
 		 *
 		 * @since 2.0.0
 		 *
@@ -161,49 +161,49 @@ class Form_Record {
 			switch ( $metadata_type ) {
 				case 'date':
 					$result['date'] = [
-						'title' => __( 'Date', 'elementor-pro' ),
+						'title' => esc_html__( 'Date', 'elementor-pro' ),
 						'value' => date_i18n( get_option( 'date_format' ) ),
 					];
 					break;
 
 				case 'time':
 					$result['time'] = [
-						'title' => __( 'Time', 'elementor-pro' ),
+						'title' => esc_html__( 'Time', 'elementor-pro' ),
 						'value' => date_i18n( get_option( 'time_format' ) ),
 					];
 					break;
 
 				case 'page_url':
 					$result['page_url'] = [
-						'title' => __( 'Page URL', 'elementor-pro' ),
-						'value' => esc_url_raw( $_POST['referrer'] ),
+						'title' => esc_html__( 'Page URL', 'elementor-pro' ),
+						'value' => esc_url_raw( $_POST['referrer'] ), // phpcs:ignore WordPress.Security.NonceVerification.Missing
 					];
 					break;
 
 				case 'page_title':
 					$result['page_title'] = [
-						'title' => __( 'Page Title', 'elementor-pro' ),
-						'value' => sanitize_text_field( $_POST['referer_title'] ),
+						'title' => esc_html__( 'Page Title', 'elementor-pro' ),
+						'value' => sanitize_text_field( $_POST['referer_title'] ), // phpcs:ignore WordPress.Security.NonceVerification.Missing
 					];
 					break;
 
 				case 'user_agent':
 					$result['user_agent'] = [
-						'title' => __( 'User Agent', 'elementor-pro' ),
+						'title' => esc_html__( 'User Agent', 'elementor-pro' ),
 						'value' => sanitize_textarea_field( $_SERVER['HTTP_USER_AGENT'] ),
 					];
 					break;
 
 				case 'remote_ip':
 					$result['remote_ip'] = [
-						'title' => __( 'Remote IP', 'elementor-pro' ),
+						'title' => esc_html__( 'Remote IP', 'elementor-pro' ),
 						'value' => Utils::get_client_ip(),
 					];
 					break;
 				case 'credit':
 					$result['credit'] = [
-						'title' => __( 'Powered by', 'elementor-pro' ),
-						'value' => __( 'Elementor', 'elementor-pro' ),
+						'title' => esc_html__( 'Powered by', 'elementor-pro' ),
+						'value' => esc_html__( 'Elementor', 'elementor-pro' ),
 					];
 					break;
 			}
@@ -279,7 +279,8 @@ class Form_Record {
 				/**
 				 * Sanitize field value.
 				 *
-				 * Filters the value of the form field for sanitization purpose.
+				 * Filters the value of the form field for sanitization purpose. This hook allows
+				 * developers to add custom sanitization for field values.
 				 *
 				 * The dynamic portion of the hook name, `$field_type`, refers to the field type.
 				 *

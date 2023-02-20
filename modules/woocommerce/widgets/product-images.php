@@ -3,6 +3,7 @@ namespace ElementorPro\Modules\Woocommerce\Widgets;
 
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Border;
+use ElementorPro\Plugin;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
@@ -15,7 +16,7 @@ class Product_Images extends Base_Widget {
 	}
 
 	public function get_title() {
-		return __( 'Product Images', 'elementor-pro' );
+		return esc_html__( 'Product Images', 'elementor-pro' );
 	}
 
 	public function get_icon() {
@@ -31,7 +32,7 @@ class Product_Images extends Base_Widget {
 		$this->start_controls_section(
 			'section_product_gallery_style',
 			[
-				'label' => __( 'Style', 'elementor-pro' ),
+				'label' => esc_html__( 'Style', 'elementor-pro' ),
 				'tab' => Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -40,7 +41,7 @@ class Product_Images extends Base_Widget {
 			'wc_style_warning',
 			[
 				'type' => Controls_Manager::RAW_HTML,
-				'raw' => __( 'The style of this widget is often affected by your theme and plugins. If you experience any such issue, try to switch to a basic theme and deactivate related plugins.', 'elementor-pro' ),
+				'raw' => esc_html__( 'The style of this widget is often affected by your theme and plugins. If you experience any such issue, try to switch to a basic theme and deactivate related plugins.', 'elementor-pro' ),
 				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
 			]
 		);
@@ -48,10 +49,10 @@ class Product_Images extends Base_Widget {
 		$this->add_control(
 			'sale_flash',
 			[
-				'label' => __( 'Sale Flash', 'elementor-pro' ),
+				'label' => esc_html__( 'Sale Flash', 'elementor-pro' ),
 				'type' => Controls_Manager::SWITCHER,
-				'label_on' => __( 'Show', 'elementor-pro' ),
-				'label_off' => __( 'Hide', 'elementor-pro' ),
+				'label_on' => esc_html__( 'Show', 'elementor-pro' ),
+				'label_off' => esc_html__( 'Hide', 'elementor-pro' ),
 				'render_type' => 'template',
 				'return_value' => 'yes',
 				'default' => 'yes',
@@ -72,7 +73,7 @@ class Product_Images extends Base_Widget {
 		$this->add_responsive_control(
 			'image_border_radius',
 			[
-				'label' => __( 'Border Radius', 'elementor-pro' ),
+				'label' => esc_html__( 'Border Radius', 'elementor-pro' ),
 				'type' => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%' ],
 				'selectors' => [
@@ -85,7 +86,7 @@ class Product_Images extends Base_Widget {
 		$this->add_control(
 			'spacing',
 			[
-				'label' => __( 'Spacing', 'elementor-pro' ),
+				'label' => esc_html__( 'Spacing', 'elementor-pro' ),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => [ 'px', 'em' ],
 				'selectors' => [
@@ -97,7 +98,7 @@ class Product_Images extends Base_Widget {
 		$this->add_control(
 			'heading_thumbs_style',
 			[
-				'label' => __( 'Thumbnails', 'elementor-pro' ),
+				'label' => esc_html__( 'Thumbnails', 'elementor-pro' ),
 				'type' => Controls_Manager::HEADING,
 				'separator' => 'before',
 			]
@@ -114,7 +115,7 @@ class Product_Images extends Base_Widget {
 		$this->add_responsive_control(
 			'thumbs_border_radius',
 			[
-				'label' => __( 'Border Radius', 'elementor-pro' ),
+				'label' => esc_html__( 'Border Radius', 'elementor-pro' ),
 				'type' => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%' ],
 				'selectors' => [
@@ -126,7 +127,7 @@ class Product_Images extends Base_Widget {
 		$this->add_control(
 			'spacing_thumbs',
 			[
-				'label' => __( 'Spacing', 'elementor-pro' ),
+				'label' => esc_html__( 'Spacing', 'elementor-pro' ),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => [ 'px', 'em' ],
 				'selectors' => [
@@ -149,13 +150,20 @@ class Product_Images extends Base_Widget {
 			return;
 		}
 
+		$is_library_preview = isset( $_GET['elementor_library'] ) && isset( $_GET['preview_id'] );
+
+		if ( $is_library_preview ) {
+			// We need to enqueue these scripts manually on the Library preview.
+			$this->load_assets_dependencies();
+		}
+
 		if ( 'yes' === $settings['sale_flash'] ) {
 			wc_get_template( 'loop/sale-flash.php' );
 		}
 		wc_get_template( 'single-product/product-image.php' );
 
 		// On render widget from Editor - trigger the init manually.
-		if ( wp_doing_ajax() ) {
+		if ( Plugin::elementor()->editor->is_edit_mode() ) {
 			?>
 			<script>
 				jQuery( '.woocommerce-product-gallery' ).each( function() {
@@ -164,5 +172,28 @@ class Product_Images extends Base_Widget {
 			</script>
 			<?php
 		}
+	}
+
+	private function load_assets_dependencies() {
+		if ( current_theme_supports( 'wc-product-gallery-zoom' ) ) {
+			wp_enqueue_script( 'zoom' );
+		}
+		if ( current_theme_supports( 'wc-product-gallery-slider' ) ) {
+			wp_enqueue_script( 'flexslider' );
+		}
+		if ( current_theme_supports( 'wc-product-gallery-lightbox' ) ) {
+			wp_enqueue_script( 'photoswipe-ui-default' );
+			wp_enqueue_style( 'photoswipe-default-skin' );
+			add_action( 'wp_footer', 'woocommerce_photoswipe' );
+		}
+		wp_enqueue_script( 'wc-single-product' );
+
+		wp_enqueue_style( 'photoswipe' );
+		wp_enqueue_style( 'photoswipe-default-skin' );
+		wp_enqueue_style( 'woocommerce_prettyPhoto_css' );
+	}
+
+	public function get_group_name() {
+		return 'woocommerce';
 	}
 }

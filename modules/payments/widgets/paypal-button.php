@@ -1,8 +1,10 @@
 <?php
 namespace ElementorPro\Modules\Payments\Widgets;
 
+use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 use Elementor\Plugin;
+use Elementor\Utils;
 use ElementorPro\Modules\Payments\Classes\Payment_Button;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -34,7 +36,7 @@ class Paypal_Button extends Payment_Button {
 	}
 
 	public function get_title() {
-		return __( 'PayPal Button', 'elementor-pro' );
+		return esc_html__( 'PayPal Button', 'elementor-pro' );
 	}
 
 	public function get_icon() {
@@ -54,6 +56,12 @@ class Paypal_Button extends Payment_Button {
 		$num = doubleval( $this->get_settings_for_display( $key ) );
 
 		return ( $min > $num ) ? $min : $num;
+	}
+
+	// Print a numerical field from settings, using `get_numeric_setting`.
+	protected function print_numeric_setting( $key, $min = 0 ) {
+		// PHPCS - the get_numeric_setting function is safe.
+		echo $this->get_numeric_setting( $key, $min ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	// Get the currently selected API communication method ( legacy / SDK ).
@@ -160,43 +168,46 @@ class Paypal_Button extends Payment_Button {
 
 		// PayPal HTML reference:
 		// https://developer.paypal.com/docs/paypal-payments-standard/integration-guide/html-reference-landing/
+
 		?>
-		<form action="<?php echo $form_action; ?>" method="post" target="<?php echo $target; ?>">
-			<input type="hidden" name="cmd" value="<?php echo $cmd; ?>" />
-			<input type="hidden" name="business" value="<?php echo $email; ?>" />
+		<form action="<?php echo esc_attr( $form_action ); ?>" method="post" target="<?php echo esc_attr( $target ); ?>">
+			<input type="hidden" name="cmd" value="<?php echo esc_attr( $cmd ); ?>" />
+			<input type="hidden" name="business" value="<?php echo esc_attr( $email ); ?>" />
 			<input type="hidden" name="lc" value="US" />
-			<input type="hidden" name="item_name" value="<?php echo $settings['product_name']; ?>" />
-			<input type="hidden" name="item_number" value="<?php echo $settings['product_sku']; ?>" />
-			<input type="hidden" name="currency_code" value="<?php echo $settings['currency']; ?>" />
-			<input type="hidden" name="<?php echo $price_field['name']; ?>" value="<?php echo $price_field['value']; ?>" />
+			<input type="hidden" name="item_name" value="<?php echo esc_attr( $settings['product_name'] ); ?>" />
+			<input type="hidden" name="item_number" value="<?php echo esc_attr( $settings['product_sku'] ); ?>" />
+			<input type="hidden" name="currency_code" value="<?php echo esc_attr( $settings['currency'] ); ?>" />
+			<input type="hidden" name="<?php echo esc_attr( $price_field['name'] ); ?>" value="<?php echo esc_attr( $price_field['value'] ); ?>" />
 			<input type="hidden" name="no_note" value="1">
 
 			<?php if ( self::PAYMENT_TYPE_CHECKOUT === $settings['type'] ) { ?>
-				<input type="hidden" name="shipping" value="<?php echo $this->get_numeric_setting( 'shipping_price' ); ?>" />
-				<input type="hidden" name="tax_rate" value="<?php echo $this->get_numeric_setting( 'tax_rate' ); ?>" />
-				<input type="hidden" name="quantity" value="<?php echo $this->get_numeric_setting( 'quantity', 1 ); ?>" />
+				<input type="hidden" name="shipping" value="<?php $this->print_numeric_setting( 'shipping_price' ); ?>" />
+				<input type="hidden" name="tax_rate" value="<?php $this->print_numeric_setting( 'tax_rate' ); ?>" />
+				<input type="hidden" name="quantity" value="<?php $this->print_numeric_setting( 'quantity', 1 ); ?>" />
 				<?php
 			} elseif ( self::PAYMENT_TYPE_SUBSCRIPTION === $settings['type'] ) { ?>
-				<input type="hidden" name="src" value="<?php echo $auto_renewal; ?>" />
+				<?php // PHPCS - the $auto_renewal variable is a safe. ?>
+				<input type="hidden" name="src" value="<?php echo $auto_renewal; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" />
 				<input type="hidden" name="p3" value="1" />
-				<input type="hidden" name="t3" value="<?php echo $billing_cycle; ?>" />
+				<?php // PHPCS - the $billing_cycle variable is a constant value from self::BILLING_CYCLE_TYPES. ?>
+				<input type="hidden" name="t3" value="<?php echo $billing_cycle; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" />
 				<input type="hidden" name="no-shipping" value="1" />
 				<?php
 			}
 
 			if ( ! empty( $settings['redirect_after_success']['url'] ) ) { ?>
-				<input type="hidden" name="return" value="<?php echo $settings['redirect_after_success']['url']; ?>">
+				<input type="hidden" name="return" value="<?php echo esc_url( $settings['redirect_after_success']['url'] ); ?>">
 				<?php
 			}
 
 			$this->add_render_attribute( 'button', 'type', 'submit' );
 			$this->add_render_attribute( 'button', 'class', 'elementor-paypal-legacy' );
-			parent::render_button( 'button' );
+			parent::render_button( null, 'button' );
 
 			foreach ( $this->get_errors() as $type => $message ) {
 				?>
-				<div class="elementor-message elementor-message-danger elementor-hidden elementor-error-message-<?php echo $type; ?>">
-					<?php echo $message; ?>
+				<div class="elementor-message elementor-message-danger elementor-hidden elementor-error-message-<?php Utils::print_unescaped_internal_string( $type ); ?>">
+					<?php echo esc_html( $message ); ?>
 				</div>
 				<?php
 			}
@@ -206,7 +217,7 @@ class Paypal_Button extends Payment_Button {
 	}
 
 	// Render the payment button.
-	protected function render_button( $tag = 'a' ) {
+	protected function render_button( Widget_Base $instance = null, $tag = 'a' ) {
 		switch ( $this->get_api_method() ) {
 			case 'legacy':
 				$this->render_legacy_form();
@@ -219,19 +230,19 @@ class Paypal_Button extends Payment_Button {
 		$this->start_controls_section(
 			'section_account',
 			[
-				'label' => __( 'Pricing & Payments', 'elementor-pro' ),
+				'label' => esc_html__( 'Pricing & Payments', 'elementor-pro' ),
 			]
 		);
 
 		$this->add_control(
 			'merchant_account',
 			[
-				'label' => __( 'Merchant Account', 'elementor-pro' ),
+				'label' => esc_html__( 'Merchant Account', 'elementor-pro' ),
 				'type' => Controls_Manager::HIDDEN,
 				'default' => self::API_TYPE_SIMPLE,
 				'options' => [
-					self::API_TYPE_SIMPLE => __( 'Default (Simple)', 'elementor-pro' ),
-					self::API_TYPE_ADVANCED => __( 'Custom (Advanced)', 'elementor-pro' ),
+					self::API_TYPE_SIMPLE => esc_html__( 'Default (Simple)', 'elementor-pro' ),
+					self::API_TYPE_ADVANCED => esc_html__( 'Custom (Advanced)', 'elementor-pro' ),
 				],
 				'frontend_available' => true,
 			]
@@ -240,12 +251,12 @@ class Paypal_Button extends Payment_Button {
 		$this->add_control(
 			'email',
 			[
-				'label' => __( 'PayPal Account', 'elementor-pro' ),
+				'label' => esc_html__( 'PayPal Account', 'elementor-pro' ),
 				'type' => Controls_Manager::TEXT,
 				'dynamic' => [
 					'active' => true,
 				],
-				'description' => __( 'Transactions made through your PayPal button will be registered under this account.', 'elementor-pro' ),
+				'description' => esc_html__( 'Transactions made through your PayPal button will be registered under this account.', 'elementor-pro' ),
 				'label_block' => true,
 				'condition' => [
 					'merchant_account' => self::API_TYPE_SIMPLE,
@@ -257,7 +268,7 @@ class Paypal_Button extends Payment_Button {
 		$this->add_control(
 			'sdk_token',
 			[
-				'label' => __( 'SDK Token', 'elementor-pro' ),
+				'label' => esc_html__( 'SDK Token', 'elementor-pro' ),
 				'type' => Controls_Manager::TEXT,
 				'dynamic' => [
 					'active' => true,
@@ -274,17 +285,47 @@ class Paypal_Button extends Payment_Button {
 		$this->end_controls_section();
 	}
 
+	/**
+	 * Updates Button tab controls in 'Style' tab
+	 *
+	 * @since 3.7.0
+	 */
+	public function register_paypal_button_controls() {
+		parent::register_controls();
+
+		$this->update_control( 'selected_icon', [
+			'default' => [
+				'value' => 'fab fa-paypal',
+				'library' => 'fa-brands',
+			],
+		] );
+
+		$this->update_control( 'background_color', [
+			'default' => '#032E82',
+		] );
+	}
+
+	/**
+	 * Edit button control initial UI
+	 *
+	 * @since 3.7.0
+	 *
+	 */
+	protected function register_controls() {
+		$this->register_paypal_button_controls();
+	}
+
 	// Custom sandbox controls.
 	protected function register_sandbox_controls() {
 		$this->add_control(
 			'sandbox_email',
 			[
-				'label' => __( 'Sandbox Email Account', 'elementor-pro' ),
+				'label' => esc_html__( 'Sandbox Email Account', 'elementor-pro' ),
 				'type' => Controls_Manager::TEXT,
 				'dynamic' => [
 					'active' => true,
 				],
-				'description' => __( 'This is the address given to you by PayPal when you set up a sandbox with your developer account. You can use the sandbox to test your purchase flow.', 'elementor-pro' ),
+				'description' => esc_html__( 'This is the address given to you by PayPal when you set up a sandbox with your developer account. You can use the sandbox to test your purchase flow.', 'elementor-pro' ),
 				'label_block' => true,
 				'condition' => [
 					'sandbox_mode' => 'yes',
@@ -301,6 +342,11 @@ class Paypal_Button extends Payment_Button {
 
 		$css_file_path = 'css/widget-' . $widget_name . $direction . '.min.css';
 
+		/*
+		 * Currently this widget does not support custom-breakpoints in its CSS file.
+		 * In order to support it, this widget needs to get the CSS config from the base-widget-trait.php.
+		 * But to make sure that it implements the Pro assets-path due to the fact that it extends a Core widget.
+		*/
 		return [
 			'key' => $widget_name,
 			'version' => ELEMENTOR_PRO_VERSION,

@@ -17,7 +17,7 @@ export class ConditionsConfig {
 			return Promise.resolve( ConditionsConfig.instance );
 		}
 
-		return $e.data.get( ConditionsConfigCommand.signature )
+		return $e.data.get( ConditionsConfigCommand.signature, {}, { refresh: true } )
 			.then( ( response ) => {
 				ConditionsConfig.instance = new ConditionsConfig( response.data );
 
@@ -43,7 +43,7 @@ export class ConditionsConfig {
 	/**
 	 * Get the sub options for the select.
 	 *
-	 * @param {string} itemName
+	 * @param {string}  itemName
 	 * @param {boolean} isSubItem
 	 * @return {Array} -
 	 */

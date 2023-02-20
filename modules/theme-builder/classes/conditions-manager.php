@@ -58,7 +58,7 @@ class Conditions_Manager {
 		$offset = 3;
 
 		$posts_columns = array_slice( $posts_columns, 0, $offset, true ) + [
-			'instances' => __( 'Instances', 'elementor-pro' ),
+			'instances' => esc_html__( 'Instances', 'elementor-pro' ),
 		] + array_slice( $posts_columns, $offset, null, true );
 
 		return $posts_columns;
@@ -72,9 +72,10 @@ class Conditions_Manager {
 		$instances = $this->get_document_instances( $post_id );
 
 		if ( ! empty( $instances ) ) {
-			echo implode( '<br />', $instances );
+			// PHPCS - the method get_document_instances is safe.
+			echo implode( '<br />', $instances ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		} else {
-			echo __( 'None', 'elementor-pro' );
+			echo esc_html__( 'None', 'elementor-pro' );
 		}
 	}
 
@@ -106,7 +107,7 @@ class Conditions_Manager {
 			return '';
 		}
 
-		return __( 'Elementor recognized that you have set this location for other templates: ', 'elementor-pro' ) .
+		return esc_html__( 'Elementor recognized that you have set this location for other templates: ', 'elementor-pro' ) .
 			' ' .
 			implode( ', ', $conflicted );
 	}
@@ -262,6 +263,14 @@ class Conditions_Manager {
 	public function register_conditions() {
 		$this->register_condition( 'general' );
 
+		/**
+		 * Elementor theme conditions registration.
+		 *
+		 * Fires when a new theme condition is registered. This hook allows developers
+		 * to register new theme conditions.
+		 *
+		 * @param Conditions_Manager $this An instance of conditions manager.
+		 */
 		do_action( 'elementor/theme/register_conditions', $this );
 	}
 
@@ -306,6 +315,13 @@ class Conditions_Manager {
 		$excludes = [];
 
 		foreach ( $conditions_groups as $theme_template_id => $conditions ) {
+			/**
+			 * Template ID for theme location templates.
+			 *
+			 * Filters the template ID for theme location templates.
+			 *
+			 * @param int $theme_template_id Template ID.
+			 */
 			$theme_template_id = apply_filters( 'elementor/theme/get_location_templates/template_id', $theme_template_id );
 
 			foreach ( $conditions as $condition ) {
@@ -508,6 +524,10 @@ class Conditions_Manager {
 
 	public function get_cache() {
 		return $this->cache;
+	}
+
+	public function clear_cache() {
+		$this->cache->clear();
 	}
 
 	public function clear_location_cache() {

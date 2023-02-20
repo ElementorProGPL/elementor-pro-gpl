@@ -18,7 +18,7 @@ class Product_Title extends Widget_Heading {
 	}
 
 	public function get_title() {
-		return __( 'Product Title', 'elementor-pro' );
+		return esc_html__( 'Product Title', 'elementor-pro' );
 	}
 
 	public function get_icon() {
@@ -31,6 +31,15 @@ class Product_Title extends Widget_Heading {
 
 	public function get_keywords() {
 		return [ 'woocommerce', 'shop', 'store', 'title', 'heading', 'product' ];
+	}
+
+	public function get_inline_css_depends() {
+		return [
+			[
+				'name' => 'heading',
+				'is_core_dependency' => true,
+			],
+		];
 	}
 
 	protected function register_controls() {
@@ -81,4 +90,8 @@ class Product_Title extends Widget_Heading {
 	}
 
 	public function render_plain_content() {}
+
+	public function get_group_name() {
+		return 'woocommerce';
+	}
 }

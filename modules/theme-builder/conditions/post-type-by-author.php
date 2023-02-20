@@ -30,7 +30,8 @@ class Post_Type_By_Author extends Condition_Base {
 	}
 
 	public function get_label() {
-		return sprintf( __( '%s By Author', 'elementor-pro' ), $this->post_type->label );
+		/* translators: %s: Post type label. */
+		return sprintf( esc_html__( '%s By Author', 'elementor-pro' ), $this->post_type->label );
 	}
 
 	public function check( $args = null ) {

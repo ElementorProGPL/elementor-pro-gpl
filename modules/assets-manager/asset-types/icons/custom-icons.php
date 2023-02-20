@@ -19,7 +19,7 @@ class Custom_Icons extends  Assets_Base {
 	public $current_post_id = 0;
 
 	public function get_name() {
-		return __( 'Custom Icons', 'elementor-pro' );
+		return esc_html__( 'Custom Icons', 'elementor-pro' );
 	}
 
 	public function get_type() {
@@ -61,7 +61,7 @@ class Custom_Icons extends  Assets_Base {
 				'field_type' => 'dropzone',
 				'accept' => 'zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed',
 				'label' => false,
-				'sub-label' => __( 'Your Fontello, IcoMoon or Fontastic .zip file', 'elementor-pro' ),
+				'sub-label' => esc_html__( 'Your Fontello, IcoMoon or Fontastic .zip file', 'elementor-pro' ),
 			],
 			[
 				'id' => 'close_div',
@@ -141,7 +141,22 @@ class Custom_Icons extends  Assets_Base {
 			'fontello' => __NAMESPACE__ . '\IconSets\Fontello',
 			'icomoon' => __NAMESPACE__ . '\IconSets\Icomoon',
 		];
-		return array_merge( apply_filters( 'elementor_pro/icons_manager/custom_icons/additional_supported_types', [] ), $icon_sets );
+
+		$additional_icon_sets = [];
+
+		/**
+		 * Additional icon sets.
+		 *
+		 * Filters the icon types supported by Elementor Pro.
+		 *
+		 * By default Elementor Pro supports 'fontastic', 'fontello' and 'icomoon'.
+		 * This hook allows developers to add additional icon sets.
+		 *
+		 * @param array $additional_icon_sets Additional icon sets.
+		 */
+		$additional_icon_sets = apply_filters( 'elementor_pro/icons_manager/custom_icons/additional_supported_types', $additional_icon_sets );
+
+		return array_merge( $additional_icon_sets, $icon_sets );
 	}
 
 	private function get_active_icon_sets() {
@@ -178,7 +193,7 @@ class Custom_Icons extends  Assets_Base {
 		$ext = pathinfo( $filename, PATHINFO_EXTENSION );
 		if ( 'zip' !== $ext ) {
 			unlink( $_FILES['zip_upload']['name'] );
-			return new \WP_Error( 'unsupported_file', __( 'Only zip files are allowed', 'elementor-pro' ) );
+			return new \WP_Error( 'unsupported_file', esc_html__( 'Only zip files are allowed', 'elementor-pro' ) );
 		}
 		if ( ! function_exists( 'wp_handle_upload' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/file.php';
@@ -237,7 +252,7 @@ class Custom_Icons extends  Assets_Base {
 		}
 
 		if ( ! $unzip_result ) {
-			$unzip_result = new \WP_Error( 'error', __( 'Could not unzip or empty archive.', 'elementor-pro' ) );
+			$unzip_result = new \WP_Error( 'error', esc_html__( 'Could not unzip or empty archive.', 'elementor-pro' ) );
 		}
 
 		@unlink( $file );
@@ -299,7 +314,6 @@ class Custom_Icons extends  Assets_Base {
 				continue;
 			}
 			$icon_set_handler->handle_new_icon_set();
-			$name = $icon_set_handler->get_name();
 			$icon_set_handler->move_files( $this->current_post_id );
 			$config = $icon_set_handler->build_config();
 
@@ -311,7 +325,7 @@ class Custom_Icons extends  Assets_Base {
 				'config' => $config,
 			];
 		}
-		return new \WP_Error( 'unsupported_zip_format', __( 'The zip file provided is not supported!', 'elementor-pro' ) );
+		return new \WP_Error( 'unsupported_zip_format', esc_html__( 'The zip file provided is not supported!', 'elementor-pro' ) );
 	}
 
 	public function handle_delete_icon_set( $post_id ) {
@@ -347,7 +361,7 @@ class Custom_Icons extends  Assets_Base {
 
 		$data = json_decode( self::get_icon_set_config( $post->ID ) );
 		if ( ! empty( $data->count ) ) {
-			echo sprintf( '<span class="font-variations-count">%d</span>', $data->count );
+			echo sprintf( '<span class="font-variations-count">%d</span>', esc_html( $data->count ) );
 		}
 
 		return $post_states;
@@ -378,14 +392,14 @@ class Custom_Icons extends  Assets_Base {
 	public function manage_columns( $columns ) {
 		return [
 			'cb' => '<input type="checkbox" />',
-			'title' => __( 'Icon Set', 'elementor-pro' ),
-			'icons_prefix' => __( 'CSS Prefix', 'elementor-pro' ),
+			'title' => esc_html__( 'Icon Set', 'elementor-pro' ),
+			'icons_prefix' => esc_html__( 'CSS Prefix', 'elementor-pro' ),
 		];
 	}
 
 	public function update_enter_title_here( $title, $post ) {
 		if ( isset( $post->post_type ) && Icons_Manager::CPT === $post->post_type ) {
-			return __( 'Enter Icon Set Name', 'elementor-pro' );
+			return esc_html__( 'Enter Icon Set Name', 'elementor-pro' );
 		}
 
 		return $title;
@@ -396,7 +410,7 @@ class Custom_Icons extends  Assets_Base {
 	}
 
 	public function register_icon_libraries_control( $additional_sets ) {
-		return array_merge( $additional_sets, self::get_custom_icons_config() );
+		return array_replace( $additional_sets, self::get_custom_icons_config() );
 	}
 
 	public function add_custom_icon_templates( $current_screen ) {

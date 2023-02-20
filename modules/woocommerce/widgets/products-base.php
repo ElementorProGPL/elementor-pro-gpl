@@ -14,13 +14,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 abstract class Products_Base extends Base_Widget {
 
-
 	protected function register_controls() {
 
 		$this->start_controls_section(
 			'section_products_style',
 			[
-				'label' => __( 'Products', 'elementor-pro' ),
+				'label' => esc_html__( 'Products', 'elementor-pro' ),
 				'tab' => Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -29,7 +28,7 @@ abstract class Products_Base extends Base_Widget {
 			'wc_style_warning',
 			[
 				'type' => Controls_Manager::RAW_HTML,
-				'raw' => __( 'The style of this widget is often affected by your theme and plugins. If you experience any such issue, try to switch to a basic theme and deactivate related plugins.', 'elementor-pro' ),
+				'raw' => esc_html__( 'The style of this widget is often affected by your theme and plugins. If you experience any such issue, try to switch to a basic theme and deactivate related plugins.', 'elementor-pro' ),
 				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
 			]
 		);
@@ -46,7 +45,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_responsive_control(
 			'column_gap',
 			[
-				'label' => __( 'Columns Gap', 'elementor-pro' ),
+				'label' => esc_html__( 'Columns Gap', 'elementor-pro' ),
 				'type' => Controls_Manager::SLIDER,
 				'default' => [
 					'size' => 20,
@@ -72,7 +71,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_responsive_control(
 			'row_gap',
 			[
-				'label' => __( 'Rows Gap', 'elementor-pro' ),
+				'label' => esc_html__( 'Rows Gap', 'elementor-pro' ),
 				'type' => Controls_Manager::SLIDER,
 				'default' => [
 					'size' => 40,
@@ -98,19 +97,19 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_responsive_control(
 			'align',
 			[
-				'label' => __( 'Alignment', 'elementor-pro' ),
+				'label' => esc_html__( 'Alignment', 'elementor-pro' ),
 				'type' => Controls_Manager::CHOOSE,
 				'options' => [
 					'left' => [
-						'title' => __( 'Left', 'elementor-pro' ),
+						'title' => esc_html__( 'Left', 'elementor-pro' ),
 						'icon' => 'eicon-text-align-left',
 					],
 					'center' => [
-						'title' => __( 'Center', 'elementor-pro' ),
+						'title' => esc_html__( 'Center', 'elementor-pro' ),
 						'icon' => 'eicon-text-align-center',
 					],
 					'right' => [
-						'title' => __( 'Right', 'elementor-pro' ),
+						'title' => esc_html__( 'Right', 'elementor-pro' ),
 						'icon' => 'eicon-text-align-right',
 					],
 				],
@@ -124,7 +123,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'heading_image_style',
 			[
-				'label' => __( 'Image', 'elementor-pro' ),
+				'label' => esc_html__( 'Image', 'elementor-pro' ),
 				'type' => Controls_Manager::HEADING,
 				'separator' => 'before',
 			]
@@ -141,7 +140,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_responsive_control(
 			'image_border_radius',
 			[
-				'label' => __( 'Border Radius', 'elementor-pro' ),
+				'label' => esc_html__( 'Border Radius', 'elementor-pro' ),
 				'type' => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%' ],
 				'selectors' => [
@@ -153,7 +152,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_responsive_control(
 			'image_spacing',
 			[
-				'label' => __( 'Spacing', 'elementor-pro' ),
+				'label' => esc_html__( 'Spacing', 'elementor-pro' ),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => [ 'px', 'em' ],
 				'selectors' => [
@@ -165,7 +164,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'heading_title_style',
 			[
-				'label' => __( 'Title', 'elementor-pro' ),
+				'label' => esc_html__( 'Title', 'elementor-pro' ),
 				'type' => Controls_Manager::HEADING,
 				'separator' => 'before',
 			]
@@ -174,7 +173,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'title_color',
 			[
-				'label' => __( 'Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'global' => [
 					'default' => Global_Colors::COLOR_PRIMARY,
@@ -202,7 +201,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_responsive_control(
 			'title_spacing',
 			[
-				'label' => __( 'Spacing', 'elementor-pro' ),
+				'label' => esc_html__( 'Spacing', 'elementor-pro' ),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => [ 'px', 'em' ],
 				'range' => [
@@ -222,7 +221,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'heading_rating_style',
 			[
-				'label' => __( 'Rating', 'elementor-pro' ),
+				'label' => esc_html__( 'Rating', 'elementor-pro' ),
 				'type' => Controls_Manager::HEADING,
 				'separator' => 'before',
 			]
@@ -231,7 +230,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'star_color',
 			[
-				'label' => __( 'Star Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Star Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}}.elementor-wc-products ul.products li.product .star-rating' => 'color: {{VALUE}}',
@@ -242,7 +241,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'empty_star_color',
 			[
-				'label' => __( 'Empty Star Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Empty Star Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}}.elementor-wc-products ul.products li.product .star-rating::before' => 'color: {{VALUE}}',
@@ -253,7 +252,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'star_size',
 			[
-				'label' => __( 'Star Size', 'elementor-pro' ),
+				'label' => esc_html__( 'Star Size', 'elementor-pro' ),
 				'type' => Controls_Manager::SLIDER,
 				'default' => [
 					'unit' => 'em',
@@ -274,7 +273,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_responsive_control(
 			'rating_spacing',
 			[
-				'label' => __( 'Spacing', 'elementor-pro' ),
+				'label' => esc_html__( 'Spacing', 'elementor-pro' ),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => [ 'px', 'em' ],
 				'range' => [
@@ -293,7 +292,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'heading_price_style',
 			[
-				'label' => __( 'Price', 'elementor-pro' ),
+				'label' => esc_html__( 'Price', 'elementor-pro' ),
 				'type' => Controls_Manager::HEADING,
 				'separator' => 'before',
 			]
@@ -302,7 +301,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'price_color',
 			[
-				'label' => __( 'Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'global' => [
 					'default' => Global_Colors::COLOR_PRIMARY,
@@ -329,7 +328,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'heading_old_price_style',
 			[
-				'label' => __( 'Regular Price', 'elementor-pro' ),
+				'label' => esc_html__( 'Regular Price', 'elementor-pro' ),
 				'type' => Controls_Manager::HEADING,
 				'separator' => 'before',
 			]
@@ -338,7 +337,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'old_price_color',
 			[
-				'label' => __( 'Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'global' => [
 					'default' => Global_Colors::COLOR_PRIMARY,
@@ -365,7 +364,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'heading_button_style',
 			[
-				'label' => __( 'Button', 'elementor-pro' ),
+				'label' => esc_html__( 'Button', 'elementor-pro' ),
 				'type' => Controls_Manager::HEADING,
 				'separator' => 'before',
 			]
@@ -376,14 +375,14 @@ abstract class Products_Base extends Base_Widget {
 		$this->start_controls_tab(
 			'tab_button_normal',
 			[
-				'label' => __( 'Normal', 'elementor-pro' ),
+				'label' => esc_html__( 'Normal', 'elementor-pro' ),
 			]
 		);
 
 		$this->add_control(
 			'button_text_color',
 			[
-				'label' => __( 'Text Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Text Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'default' => '',
 				'selectors' => [
@@ -395,7 +394,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'button_background_color',
 			[
-				'label' => __( 'Background Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Background Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}}.elementor-wc-products ul.products li.product .button' => 'background-color: {{VALUE}};',
@@ -406,7 +405,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'button_border_color',
 			[
-				'label' => __( 'Border Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Border Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}}.elementor-wc-products ul.products li.product .button' => 'border-color: {{VALUE}};',
@@ -430,14 +429,14 @@ abstract class Products_Base extends Base_Widget {
 		$this->start_controls_tab(
 			'tab_button_hover',
 			[
-				'label' => __( 'Hover', 'elementor-pro' ),
+				'label' => esc_html__( 'Hover', 'elementor-pro' ),
 			]
 		);
 
 		$this->add_control(
 			'button_hover_color',
 			[
-				'label' => __( 'Text Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Text Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}}.elementor-wc-products ul.products li.product .button:hover' => 'color: {{VALUE}};',
@@ -448,7 +447,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'button_hover_background_color',
 			[
-				'label' => __( 'Background Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Background Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}}.elementor-wc-products ul.products li.product .button:hover' => 'background-color: {{VALUE}};',
@@ -459,7 +458,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'button_hover_border_color',
 			[
-				'label' => __( 'Border Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Border Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}}.elementor-wc-products ul.products li.product .button:hover' => 'border-color: {{VALUE}};',
@@ -483,7 +482,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'button_border_radius',
 			[
-				'label' => __( 'Border Radius', 'elementor-pro' ),
+				'label' => esc_html__( 'Border Radius', 'elementor-pro' ),
 				'type' => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%' ],
 				'selectors' => [
@@ -495,7 +494,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'button_text_padding',
 			[
-				'label' => __( 'Text Padding', 'elementor-pro' ),
+				'label' => esc_html__( 'Text Padding', 'elementor-pro' ),
 				'type' => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors' => [
@@ -507,7 +506,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_responsive_control(
 			'button_spacing',
 			[
-				'label' => __( 'Spacing', 'elementor-pro' ),
+				'label' => esc_html__( 'Spacing', 'elementor-pro' ),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => [ 'px', 'em' ],
 				'selectors' => [
@@ -517,9 +516,24 @@ abstract class Products_Base extends Base_Widget {
 		);
 
 		$this->add_control(
+			'automatically_align_buttons',
+			[
+				'label' => __( 'Automatically align buttons', 'elementor-pro' ),
+				'type' => Controls_Manager::SWITCHER,
+				'label_on' => __( 'Yes', 'elementor-pro' ),
+				'label_off' => __( 'No', 'elementor-pro' ),
+				'default' => '',
+				'selectors' => [
+					'{{WRAPPER}}.elementor-wc-products ul.products li.product' => '--button-align-display: flex; --button-align-direction: column; --button-align-justify: space-between;',
+				],
+				'render_type' => 'template',
+			]
+		);
+
+		$this->add_control(
 			'heading_view_cart_style',
 			[
-				'label' => __( 'View Cart', 'elementor-pro' ),
+				'label' => esc_html__( 'View Cart', 'elementor-pro' ),
 				'type' => Controls_Manager::HEADING,
 				'separator' => 'before',
 			]
@@ -528,7 +542,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'view_cart_color',
 			[
-				'label' => __( 'Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}}.elementor-wc-products .added_to_cart' => 'color: {{VALUE}}',
@@ -547,12 +561,36 @@ abstract class Products_Base extends Base_Widget {
 			]
 		);
 
+		$this->add_responsive_control(
+			'view_cart_spacing',
+			[
+				'label' => esc_html__( 'Spacing', 'elementor-pro' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => [ 'px', 'em' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 50,
+						'step' => 1,
+					],
+					'em' => [
+						'min' => 0,
+						'max' => 3.5,
+						'step' => 0.1,
+					],
+				],
+				'selectors' => [
+					'{{WRAPPER}}.elementor-wc-products .added_to_cart' => 'margin-inline-start: {{SIZE}}{{UNIT}}',
+				],
+			]
+		);
+
 		$this->end_controls_section();
 
 		$this->start_controls_section(
 			'section_design_box',
 			[
-				'label' => __( 'Box', 'elementor-pro' ),
+				'label' => esc_html__( 'Box', 'elementor-pro' ),
 				'tab' => Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -560,7 +598,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'box_border_width',
 			[
-				'label' => __( 'Border Width', 'elementor-pro' ),
+				'label' => esc_html__( 'Border Width', 'elementor-pro' ),
 				'type' => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px' ],
 				'range' => [
@@ -578,7 +616,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'box_border_radius',
 			[
-				'label' => __( 'Border Radius', 'elementor-pro' ),
+				'label' => esc_html__( 'Border Radius', 'elementor-pro' ),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => [ 'px', '%' ],
 				'range' => [
@@ -596,7 +634,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_responsive_control(
 			'box_padding',
 			[
-				'label' => __( 'Padding', 'elementor-pro' ),
+				'label' => esc_html__( 'Padding', 'elementor-pro' ),
 				'type' => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', 'em' ],
 				'range' => [
@@ -615,7 +653,7 @@ abstract class Products_Base extends Base_Widget {
 
 		$this->start_controls_tab( 'classic_style_normal',
 			[
-				'label' => __( 'Normal', 'elementor-pro' ),
+				'label' => esc_html__( 'Normal', 'elementor-pro' ),
 			]
 		);
 
@@ -630,7 +668,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'box_bg_color',
 			[
-				'label' => __( 'Background Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Background Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}}.elementor-wc-products ul.products li.product' => 'background-color: {{VALUE}}',
@@ -641,7 +679,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'box_border_color',
 			[
-				'label' => __( 'Border Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Border Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}}.elementor-wc-products ul.products li.product' => 'border-color: {{VALUE}}',
@@ -653,7 +691,7 @@ abstract class Products_Base extends Base_Widget {
 
 		$this->start_controls_tab( 'classic_style_hover',
 			[
-				'label' => __( 'Hover', 'elementor-pro' ),
+				'label' => esc_html__( 'Hover', 'elementor-pro' ),
 			]
 		);
 
@@ -668,7 +706,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'box_bg_color_hover',
 			[
-				'label' => __( 'Background Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Background Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}}.elementor-wc-products ul.products li.product:hover' => 'background-color: {{VALUE}}',
@@ -679,7 +717,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'box_border_color_hover',
 			[
-				'label' => __( 'Border Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Border Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}}.elementor-wc-products ul.products li.product:hover' => 'border-color: {{VALUE}}',
@@ -696,7 +734,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->start_controls_section(
 			'section_pagination_style',
 			[
-				'label' => __( 'Pagination', 'elementor-pro' ),
+				'label' => esc_html__( 'Pagination', 'elementor-pro' ),
 				'tab' => Controls_Manager::TAB_STYLE,
 				'condition' => [
 					'paginate' => 'yes',
@@ -707,7 +745,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'pagination_spacing',
 			[
-				'label' => __( 'Spacing', 'elementor-pro' ),
+				'label' => esc_html__( 'Spacing', 'elementor-pro' ),
 				'type' => Controls_Manager::SLIDER,
 				'selectors' => [
 					'{{WRAPPER}} nav.woocommerce-pagination' => 'margin-top: {{SIZE}}{{UNIT}}',
@@ -718,10 +756,10 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'show_pagination_border',
 			[
-				'label' => __( 'Border', 'elementor-pro' ),
+				'label' => esc_html__( 'Border', 'elementor-pro' ),
 				'type' => Controls_Manager::SWITCHER,
-				'label_off' => __( 'Hide', 'elementor-pro' ),
-				'label_on' => __( 'Show', 'elementor-pro' ),
+				'label_off' => esc_html__( 'Hide', 'elementor-pro' ),
+				'label_on' => esc_html__( 'Show', 'elementor-pro' ),
 				'default' => 'yes',
 				'return_value' => 'yes',
 				'prefix_class' => 'elementor-show-pagination-border-',
@@ -731,7 +769,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'pagination_border_color',
 			[
-				'label' => __( 'Border Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Border Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} nav.woocommerce-pagination ul' => 'border-color: {{VALUE}}',
@@ -746,7 +784,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'pagination_padding',
 			[
-				'label' => __( 'Padding', 'elementor-pro' ),
+				'label' => esc_html__( 'Padding', 'elementor-pro' ),
 				'type' => Controls_Manager::SLIDER,
 				'range' => [
 					'em' => [
@@ -774,14 +812,14 @@ abstract class Products_Base extends Base_Widget {
 
 		$this->start_controls_tab( 'pagination_style_normal',
 			[
-				'label' => __( 'Normal', 'elementor-pro' ),
+				'label' => esc_html__( 'Normal', 'elementor-pro' ),
 			]
 		);
 
 		$this->add_control(
 			'pagination_link_color',
 			[
-				'label' => __( 'Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} nav.woocommerce-pagination ul li a' => 'color: {{VALUE}}',
@@ -792,7 +830,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'pagination_link_bg_color',
 			[
-				'label' => __( 'Background Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Background Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} nav.woocommerce-pagination ul li a' => 'background-color: {{VALUE}}',
@@ -804,14 +842,14 @@ abstract class Products_Base extends Base_Widget {
 
 		$this->start_controls_tab( 'pagination_style_hover',
 			[
-				'label' => __( 'Hover', 'elementor-pro' ),
+				'label' => esc_html__( 'Hover', 'elementor-pro' ),
 			]
 		);
 
 		$this->add_control(
 			'pagination_link_color_hover',
 			[
-				'label' => __( 'Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} nav.woocommerce-pagination ul li a:hover' => 'color: {{VALUE}}',
@@ -822,7 +860,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'pagination_link_bg_color_hover',
 			[
-				'label' => __( 'Background Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Background Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} nav.woocommerce-pagination ul li a:hover' => 'background-color: {{VALUE}}',
@@ -834,14 +872,14 @@ abstract class Products_Base extends Base_Widget {
 
 		$this->start_controls_tab( 'pagination_style_active',
 			[
-				'label' => __( 'Active', 'elementor-pro' ),
+				'label' => esc_html__( 'Active', 'elementor-pro' ),
 			]
 		);
 
 		$this->add_control(
 			'pagination_link_color_active',
 			[
-				'label' => __( 'Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} nav.woocommerce-pagination ul li span.current' => 'color: {{VALUE}}',
@@ -852,7 +890,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'pagination_link_bg_color_active',
 			[
-				'label' => __( 'Background Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Background Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} nav.woocommerce-pagination ul li span.current' => 'background-color: {{VALUE}}',
@@ -869,7 +907,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->start_controls_section(
 			'sale_flash_style',
 			[
-				'label' => __( 'Sale Flash', 'elementor-pro' ),
+				'label' => esc_html__( 'Sale Flash', 'elementor-pro' ),
 				'tab' => Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -877,10 +915,10 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'show_onsale_flash',
 			[
-				'label' => __( 'Sale Flash', 'elementor-pro' ),
+				'label' => esc_html__( 'Sale Flash', 'elementor-pro' ),
 				'type' => Controls_Manager::SWITCHER,
-				'label_off' => __( 'Hide', 'elementor-pro' ),
-				'label_on' => __( 'Show', 'elementor-pro' ),
+				'label_off' => esc_html__( 'Hide', 'elementor-pro' ),
+				'label_on' => esc_html__( 'Show', 'elementor-pro' ),
 				'separator' => 'before',
 				'default' => 'yes',
 				'return_value' => 'yes',
@@ -893,7 +931,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'onsale_text_color',
 			[
-				'label' => __( 'Text Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Text Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}}.elementor-wc-products ul.products li.product span.onsale' => 'color: {{VALUE}}',
@@ -907,7 +945,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'onsale_text_background_color',
 			[
-				'label' => __( 'Background Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Background Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}}.elementor-wc-products ul.products li.product span.onsale' => 'background-color: {{VALUE}}',
@@ -932,7 +970,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'onsale_border_radius',
 			[
-				'label' => __( 'Border Radius', 'elementor-pro' ),
+				'label' => esc_html__( 'Border Radius', 'elementor-pro' ),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => [ 'px', 'em' ],
 				'selectors' => [
@@ -947,7 +985,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'onsale_width',
 			[
-				'label' => __( 'Width', 'elementor-pro' ),
+				'label' => esc_html__( 'Width', 'elementor-pro' ),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => [ 'px', 'em' ],
 				'selectors' => [
@@ -962,7 +1000,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'onsale_height',
 			[
-				'label' => __( 'Height', 'elementor-pro' ),
+				'label' => esc_html__( 'Height', 'elementor-pro' ),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => [ 'px', 'em' ],
 				'selectors' => [
@@ -977,15 +1015,15 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'onsale_horizontal_position',
 			[
-				'label' => __( 'Position', 'elementor-pro' ),
+				'label' => esc_html__( 'Position', 'elementor-pro' ),
 				'type' => Controls_Manager::CHOOSE,
 				'options' => [
 					'left' => [
-						'title' => __( 'Left', 'elementor-pro' ),
+						'title' => esc_html__( 'Left', 'elementor-pro' ),
 						'icon' => 'eicon-h-align-left',
 					],
 					'right' => [
-						'title' => __( 'Right', 'elementor-pro' ),
+						'title' => esc_html__( 'Right', 'elementor-pro' ),
 						'icon' => 'eicon-h-align-right',
 					],
 				],
@@ -1005,7 +1043,7 @@ abstract class Products_Base extends Base_Widget {
 		$this->add_control(
 			'onsale_distance',
 			[
-				'label' => __( 'Distance', 'elementor-pro' ),
+				'label' => esc_html__( 'Distance', 'elementor-pro' ),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => [ 'px', 'em' ],
 				'range' => [
@@ -1028,5 +1066,22 @@ abstract class Products_Base extends Base_Widget {
 		);
 
 		$this->end_controls_section();
+	}
+
+	/**
+	 * Add To Cart Wrapper
+	 *
+	 * Add a div wrapper around the Add to Cart & View Cart buttons on the product cards inside the product grid.
+	 * The wrapper is used to vertically align the Add to Cart Button and the View Cart link to the bottom of the card.
+	 * This wrapper is added when the 'Automatically align buttons' toggle is selected.
+	 * Using the 'woocommerce_loop_add_to_cart_link' hook.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param string $string
+	 * @return string $string
+	 */
+	public function add_to_cart_wrapper( $string ) {
+		return '<div class="woocommerce-loop-product__buttons">' . $string . '</div>';
 	}
 }

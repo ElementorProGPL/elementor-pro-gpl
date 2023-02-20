@@ -15,7 +15,7 @@ class Shortcode extends Tag {
 	}
 
 	public function get_title() {
-		return __( 'Shortcode', 'elementor-pro' );
+		return esc_html__( 'Shortcode', 'elementor-pro' );
 	}
 
 	public function get_group() {
@@ -35,7 +35,7 @@ class Shortcode extends Tag {
 		$this->add_control(
 			'shortcode',
 			[
-				'label' => __( 'Shortcode', 'elementor-pro' ),
+				'label' => esc_html__( 'Shortcode', 'elementor-pro' ),
 				'type'  => Controls_Manager::TEXTAREA,
 			]
 		);
@@ -52,21 +52,24 @@ class Shortcode extends Tag {
 
 		$value = do_shortcode( $shortcode_string );
 
+		$should_escape = true;
+
 		/**
-		 * Should Escape.
+		 * Should escape shortcodes.
 		 *
-		 * Used to allow 3rd party to avoid shortcode dynamic from escaping
+		 * By default shortcodes in dynamic tags are escaped. This hook allows developers
+		 * to avoid shortcodes from beeing escaped. Defaults to true.
 		 *
 		 * @since 2.2.1
 		 *
-		 * @param bool defaults to true
+		 * @param bool $should_escape Whether to escape shortcodes in dynamic tags.
 		 */
-		$should_escape = apply_filters( 'elementor_pro/dynamic_tags/shortcode/should_escape', true );
+		$should_escape = apply_filters( 'elementor_pro/dynamic_tags/shortcode/should_escape', $should_escape );
 
 		if ( $should_escape ) {
 			$value = wp_kses_post( $value );
 		}
-
-		echo $value;
+		// PHPCS - the variable $value is safe.
+		echo $value; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }

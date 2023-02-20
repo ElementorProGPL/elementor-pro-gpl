@@ -2,8 +2,12 @@
 namespace ElementorPro\Modules\DynamicTags\ACF;
 
 use Elementor\Controls_Manager;
+use Elementor\Core\Base\Document;
 use Elementor\Core\DynamicTags\Base_Tag;
 use Elementor\Modules\DynamicTags;
+use ElementorPro\Base\MarkerInterfaces\Archive_Template_Interface;
+use ElementorPro\Base\MarkerInterfaces\Template_With_Post_Content_interface;
+use ElementorPro\Plugin;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
@@ -72,7 +76,7 @@ class Module extends DynamicTags\Module {
 				// Use group ID for unique keys
 				if ( $has_option_page_location ) {
 					$key = 'options:' . $field['name'];
-					$options[ $key ] = __( 'Options', 'elementor-pro' ) . ':' . $field['label'];
+					$options[ $key ] = esc_html__( 'Options', 'elementor-pro' ) . ':' . $field['label'];
 					if ( $is_only_options_page ) {
 						continue;
 					}
@@ -103,11 +107,56 @@ class Module extends DynamicTags\Module {
 		$tag->add_control(
 			'key',
 			[
-				'label' => __( 'Key', 'elementor-pro' ),
+				'label' => esc_html__( 'Key', 'elementor-pro' ),
 				'type' => Controls_Manager::SELECT,
 				'groups' => self::get_control_options( $tag->get_supported_fields() ),
 			]
 		);
+	}
+
+	/**
+	 * @param $field_key
+	 * @param $meta_key
+	 * @return mixed
+	 */
+	private static function get_acf_field( $field_key, $meta_key ) {
+		if ( 'options' === $field_key ) {
+			$field = get_field_object( $meta_key, $field_key );
+		} else {
+			$field = self::get_field_from_current_item( $field_key );
+		}
+		return $field;
+	}
+
+	/**
+	 * @param $field_key
+	 * @return mixed
+	 */
+	private static function get_field_from_current_item( $field_key ) {
+		$document = Plugin::elementor()->documents->get_current();
+		if ( ! empty( $document ) ) {
+			$field = self::get_field_based_on_document_type( $document, $field_key );
+		} else {
+			$field = get_field_object( $field_key );
+		}
+
+		return $field;
+	}
+
+	/**
+	 * @param Document $document
+	 * @param $field_key
+	 * @return mixed
+	 */
+	private static function get_field_based_on_document_type( Document $document, $field_key ) {
+		if ( $document instanceof Template_With_Post_Content_interface ) {
+			$field = get_field_object( $field_key );
+		} elseif ( $document instanceof Archive_Template_Interface ) {
+			$field = get_field_object( $field_key, get_queried_object() );
+		} else {
+			$field = get_field_object( $field_key, $document->get_post()->ID );
+		}
+		return $field;
 	}
 
 	public function get_tag_classes_names() {
@@ -128,14 +177,7 @@ class Module extends DynamicTags\Module {
 
 		if ( ! empty( $key ) ) {
 			list( $field_key, $meta_key ) = explode( ':', $key );
-
-			if ( 'options' === $field_key ) {
-				$field = get_field_object( $meta_key, $field_key );
-			} else {
-				$field = get_field_object( $field_key, get_queried_object() );
-			}
-
-			return [ $field, $meta_key ];
+			return [ self::get_acf_field( $field_key, $meta_key ), $meta_key ];
 		}
 
 		return [];
@@ -144,7 +186,7 @@ class Module extends DynamicTags\Module {
 	public function get_groups() {
 		return [
 			self::ACF_GROUP => [
-				'title' => __( 'ACF', 'elementor-pro' ),
+				'title' => esc_html__( 'ACF', 'elementor-pro' ),
 			],
 		];
 	}

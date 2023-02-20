@@ -1,6 +1,7 @@
 <?php
 namespace ElementorPro\Modules\ThemeBuilder\Widgets;
 
+use Elementor\Controls_Manager;
 use Elementor\Widget_Heading;
 use ElementorPro\Base\Base_Widget_Trait;
 use ElementorPro\Plugin;
@@ -19,7 +20,7 @@ class Site_Title extends Widget_Heading {
 	}
 
 	public function get_title() {
-		return __( 'Site Title', 'elementor-pro' );
+		return esc_html__( 'Site Title', 'elementor-pro' );
 	}
 
 	public function get_icon() {
@@ -32,6 +33,15 @@ class Site_Title extends Widget_Heading {
 
 	public function get_keywords() {
 		return [ 'site', 'title', 'name' ];
+	}
+
+	public function get_inline_css_depends() {
+		return [
+			[
+				'name' => 'heading',
+				'is_core_dependency' => true,
+			],
+		];
 	}
 
 	protected function register_controls() {
@@ -58,6 +68,27 @@ class Site_Title extends Widget_Heading {
 			],
 			[
 				'recursive' => true,
+			]
+		);
+
+		$this->add_control(
+			'site_identity_notice',
+			[
+				'type' => Controls_Manager::RAW_HTML,
+				'raw' => sprintf(
+					/* translators: 1: Link opening tag, 2: Link closing tag. */
+					esc_html__( 'To edit the title of your site, go to %1$sSite Identity%2$s.', 'elementor-pro' ),
+					'<a href="#" onclick="elementorPro.modules.themeBuilder.openSiteIdentity( event )" >',
+					'</a>'
+				),
+				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
+			],
+			[
+				'position' => [
+					'of' => 'title',
+					'type' => 'control',
+					'at' => 'before',
+				],
 			]
 		);
 	}

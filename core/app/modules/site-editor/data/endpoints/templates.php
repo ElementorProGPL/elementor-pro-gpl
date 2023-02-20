@@ -153,7 +153,7 @@ class Templates extends Base_Endpoint {
 		$is_active = false;
 
 		if ( ! $has_instances ) {
-			$template['instances'] = [ 'no_instances' => __( 'No instances', 'elementor-pro' ) ];
+			$template['instances'] = [ 'no_instances' => esc_html__( 'No instances', 'elementor-pro' ) ];
 		} else {
 			$is_active = 'publish' === $template['status'];
 		}
@@ -181,9 +181,23 @@ class Templates extends Base_Endpoint {
 			'placeholderUrl' => $site_editor_config['urls']['thumbnail'],
 			'pageLayout' => $site_editor_config['page_layout'],
 			'supportsSiteEditor' => true,
+			'showInstances' => $site_editor_config['show_instances'],
 		] );
 
-		return apply_filters( 'elementor-pro/site-editor/data/template', $data );
+		/**
+		 * Template data.
+		 *
+		 * Filters the data returned by Elementor API as JSON.
+		 *
+		 * By default Elementor API returns data in a JSON format that enables the
+		 * builder to work properly. This hook allows developers to alter the data
+		 * returned by the API to add new elements.
+		 *
+		 * @param array $data Template data.
+		 */
+		$data = apply_filters( 'elementor-pro/site-editor/data/template', $data );
+
+		return $data;
 	}
 
 	/**

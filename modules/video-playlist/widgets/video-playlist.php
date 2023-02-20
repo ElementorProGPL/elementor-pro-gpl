@@ -24,7 +24,7 @@ class Video_Playlist extends Base_Widget {
 	}
 
 	public function get_title() {
-		return __( 'Video Playlist', 'elementor-pro' );
+		return esc_html__( 'Video Playlist', 'elementor-pro' );
 	}
 
 	public function get_icon() {
@@ -35,19 +35,19 @@ class Video_Playlist extends Base_Widget {
 		$this->start_controls_section(
 			'section_playlist',
 			[
-				'label' => __( 'Playlist', 'elementor-pro' ),
+				'label' => esc_html__( 'Playlist', 'elementor-pro' ),
 			]
 		);
 
 		$this->add_control(
 			'tabs_direction',
 			[
-				'label' => __( 'Position', 'elementor-pro' ),
+				'label' => esc_html__( 'Position', 'elementor-pro' ),
 				'type' => Controls_Manager::HIDDEN,
 				'default' => 'vertical',
 				'options' => [
-					'horizontal' => __( 'Horizontal', 'elementor-pro' ),
-					'vertical' => __( 'Vertical', 'elementor-pro' ),
+					'horizontal' => esc_html__( 'Horizontal', 'elementor-pro' ),
+					'vertical' => esc_html__( 'Vertical', 'elementor-pro' ),
 				],
 				'prefix_class' => 'e-tabs-view-',
 			]
@@ -56,10 +56,10 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'playlist_title',
 			[
-				'label' => __( 'Playlist Name', 'elementor-pro' ),
+				'label' => esc_html__( 'Playlist Name', 'elementor-pro' ),
 				'type' => Controls_Manager::TEXT,
-				'default' => __( 'Playlist', 'elementor-pro' ),
-				'placeholder' => __( 'Playlist', 'elementor-pro' ),
+				'default' => esc_html__( 'Playlist', 'elementor-pro' ),
+				'placeholder' => esc_html__( 'Playlist', 'elementor-pro' ),
 				'frontend_available' => true,
 			]
 		);
@@ -69,13 +69,14 @@ class Video_Playlist extends Base_Widget {
 		$repeater->add_control(
 			'type',
 			[
-				'label' => __( 'Type', 'elementor-pro' ),
+				'label' => esc_html__( 'Type', 'elementor-pro' ),
 				'type' => Controls_Manager::SELECT,
 				'default' => 'youtube',
 				'options' => [
-					'youtube' => __( 'YouTube', 'elementor-pro' ),
-					'hosted' => __( 'Self Hosted', 'elementor-pro' ),
-					'section' => __( 'Section', 'elementor-pro' ),
+					'youtube' => esc_html__( 'YouTube', 'elementor-pro' ),
+					'vimeo' => esc_html__( 'Vimeo', 'elementor-pro' ),
+					'hosted' => esc_html__( 'Self Hosted', 'elementor-pro' ),
+					'section' => esc_html__( 'Section', 'elementor-pro' ),
 				],
 			]
 		);
@@ -83,12 +84,12 @@ class Video_Playlist extends Base_Widget {
 		$repeater->add_control(
 			'youtube_url',
 			[
-				'label' => __( 'Link', 'elementor-pro' ),
+				'label' => esc_html__( 'Link', 'elementor-pro' ),
 				'type' => Controls_Manager::TEXT,
 				'dynamic' => [
 					'active' => true,
 				],
-				'placeholder' => __( 'Paste URL', 'elementor-pro' ) . ' (YouTube)',
+				'placeholder' => esc_html__( 'Paste URL', 'elementor-pro' ) . ' (YouTube)',
 				'label_block' => true,
 				'condition' => [
 					'type' => 'youtube',
@@ -97,15 +98,36 @@ class Video_Playlist extends Base_Widget {
 		);
 
 		$repeater->add_control(
-			'fetch_data',
+			'vimeo_url',
+			[
+				'label' => esc_html__( 'Link', 'elementor-pro' ),
+				'type' => Controls_Manager::TEXT,
+				'dynamic' => [
+					'active' => true,
+					'categories' => [
+						TagsModule::POST_META_CATEGORY,
+						TagsModule::URL_CATEGORY,
+					],
+				],
+				'placeholder' => esc_html__( 'Enter your URL', 'elementor-pro' ) . ' (Vimeo)',
+				'default' => 'https://vimeo.com/235215203',
+				'label_block' => true,
+				'condition' => [
+					'type' => 'vimeo',
+				],
+			]
+		);
+
+		$repeater->add_control(
+			'vimeo_fetch_data',
 			[
 				'type' => Controls_Manager::BUTTON,
 				'label_block' => true,
-				'text' => __( 'Get Video Data', 'elementor-pro' ),
+				'text' => esc_html__( 'Get Video Data', 'elementor-pro' ),
 				'separator' => 'none',
-				'event' => 'elementorPlaylistWidget:fetchData',
+				'event' => 'elementorPlaylistWidget:fetchVideoData',
 				'condition' => [
-					'type' => 'youtube',
+					'type' => [ 'youtube', 'vimeo' ],
 				],
 			]
 		);
@@ -113,7 +135,7 @@ class Video_Playlist extends Base_Widget {
 		$repeater->add_control(
 			'is_external_url',
 			[
-				'label' => __( 'External URL', 'elementor-pro' ),
+				'label' => esc_html__( 'External URL', 'elementor-pro' ),
 				'type' => Controls_Manager::SWITCHER,
 				'condition' => [
 					'type' => 'hosted',
@@ -124,7 +146,7 @@ class Video_Playlist extends Base_Widget {
 		$repeater->add_control(
 			'hosted_url',
 			[
-				'label' => __( 'Choose File', 'elementor-pro' ),
+				'label' => esc_html__( 'Choose File', 'elementor-pro' ),
 				'type' => Controls_Manager::MEDIA,
 				'dynamic' => [
 					'active' => true,
@@ -143,7 +165,7 @@ class Video_Playlist extends Base_Widget {
 		$repeater->add_control(
 			'external_url',
 			[
-				'label' => __( 'URL', 'elementor-pro' ),
+				'label' => esc_html__( 'URL', 'elementor-pro' ),
 				'type' => Controls_Manager::URL,
 				'autocomplete' => false,
 				'options' => false,
@@ -157,7 +179,7 @@ class Video_Playlist extends Base_Widget {
 					],
 				],
 				'media_type' => 'video',
-				'placeholder' => __( 'Enter your URL', 'elementor-pro' ),
+				'placeholder' => esc_html__( 'Enter your URL', 'elementor-pro' ),
 				'condition' => [
 					'type' => 'hosted',
 					'is_external_url' => 'yes',
@@ -168,13 +190,13 @@ class Video_Playlist extends Base_Widget {
 		$repeater->add_control(
 			'title',
 			[
-				'label' => __( 'Title', 'elementor-pro' ),
+				'label' => esc_html__( 'Title', 'elementor-pro' ),
 				'type' => Controls_Manager::TEXT,
 				'dynamic' => [
 					'active' => true,
 				],
-				'default' => __( 'Title', 'elementor-pro' ),
-				'placeholder' => __( 'Add Your Text Here', 'elementor-pro' ),
+				'default' => esc_html__( 'Title', 'elementor-pro' ),
+				'placeholder' => esc_html__( 'Add Your Text Here', 'elementor-pro' ),
 				'label_block' => true,
 			]
 		);
@@ -182,12 +204,12 @@ class Video_Playlist extends Base_Widget {
 		$repeater->add_control(
 			'duration',
 			[
-				'label' => __( 'Duration', 'elementor-pro' ),
+				'label' => esc_html__( 'Duration', 'elementor-pro' ),
 				'type' => Controls_Manager::TEXT,
 				'placeholder' => '1:05',
 				'default' => '',
 				'condition' => [
-					'type' => [ 'youtube', 'hosted' ],
+					'type!' => 'section',
 				],
 			]
 		);
@@ -195,7 +217,7 @@ class Video_Playlist extends Base_Widget {
 		$repeater->add_control(
 			'thumbnail',
 			[
-				'label' => __( 'Thumbnail', 'elementor-pro' ),
+				'label' => esc_html__( 'Thumbnail', 'elementor-pro' ),
 				'type' => Controls_Manager::MEDIA,
 				'dynamic' => [
 					'active' => true,
@@ -204,7 +226,7 @@ class Video_Playlist extends Base_Widget {
 					'url' => Utils::get_placeholder_image_src(),
 				],
 				'condition' => [
-					'type' => [ 'youtube', 'hosted' ],
+					'type!' => 'section',
 				],
 			]
 		);
@@ -212,14 +234,14 @@ class Video_Playlist extends Base_Widget {
 		$repeater->add_control(
 			'inner_tab_is_content_visible',
 			[
-				'label' => __( 'Contents Tabs ', 'elementor-pro' ),
+				'label' => esc_html__( 'Contents Tabs ', 'elementor-pro' ),
 				'type' => Controls_Manager::SWITCHER,
-				'label_on' => __( 'Show', 'elementor-pro' ),
-				'label_off' => __( 'Hide', 'elementor-pro' ),
+				'label_on' => esc_html__( 'Show', 'elementor-pro' ),
+				'label_off' => esc_html__( 'Hide', 'elementor-pro' ),
 				'return_value' => 'show',
 				'default' => '',
 				'condition' => [
-					'type' => [ 'youtube', 'hosted' ],
+					'type' => [ 'youtube', 'hosted', 'vimeo' ],
 				],
 			]
 		);
@@ -229,9 +251,9 @@ class Video_Playlist extends Base_Widget {
 		$repeater->start_controls_tab(
 			'inner_tab_1',
 			[
-				'label' => __( 'Tab #1', 'elementor-pro' ),
+				'label' => esc_html__( 'Tab #1', 'elementor-pro' ),
 				'condition' => [
-					'type' => [ 'youtube', 'hosted' ],
+					'type' => [ 'youtube', 'hosted', 'vimeo' ],
 					'inner_tab_is_content_visible' => 'show',
 				],
 			]
@@ -242,9 +264,9 @@ class Video_Playlist extends Base_Widget {
 			[
 				'label' => '',
 				'type' => Controls_Manager::WYSIWYG,
-				'default' => '<p>' . __( 'Add some content for each one of your videos, like a description, transcript or external links.To add, remove or edit tab names, go to Tabs.', 'elementor-pro' ) . '</p>',
+				'default' => '<p>' . esc_html__( 'Add some content for each one of your videos, like a description, transcript or external links.To add, remove or edit tab names, go to Tabs.', 'elementor-pro' ) . '</p>',
 				'condition' => [
-					'type' => [ 'youtube', 'hosted' ],
+					'type' => [ 'youtube', 'hosted', 'vimeo' ],
 					'inner_tab_is_content_visible' => 'show',
 				],
 			]
@@ -255,9 +277,9 @@ class Video_Playlist extends Base_Widget {
 		$repeater->start_controls_tab(
 			'inner_tab_2',
 			[
-				'label' => __( 'Tab #2', 'elementor-pro' ),
+				'label' => esc_html__( 'Tab #2', 'elementor-pro' ),
 				'condition' => [
-					'type' => [ 'youtube', 'hosted' ],
+					'type' => [ 'youtube', 'hosted', 'vimeo' ],
 					'inner_tab_is_content_visible' => 'show',
 				],
 			]
@@ -269,7 +291,7 @@ class Video_Playlist extends Base_Widget {
 				'label' => '',
 				'type' => Controls_Manager::WYSIWYG,
 				'condition' => [
-					'type' => [ 'youtube', 'hosted' ],
+					'type' => [ 'youtube', 'hosted', 'vimeo' ],
 					'inner_tab_is_content_visible' => 'show',
 				],
 			]
@@ -282,30 +304,27 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'tabs',
 			[
-				'label' => __( 'Playlist Items', 'elementor-pro' ),
+				'label' => esc_html__( 'Playlist Items', 'elementor-pro' ),
 				'type' => Controls_Manager::REPEATER,
 				'fields' => $repeater->get_controls(),
 				'default' => [
 					[
-						'title' => __( 'Sample Video', 'elementor-pro' ),
+						'title' => esc_html__( 'Sample Video', 'elementor-pro' ),
 						'youtube_url' => 'https://www.youtube.com/watch?v=XHOmBV4js_E',
 						'duration' => '0:16',
-						'thumbnail' => [ 'url' => 'http://img.youtube.com/vi/XHOmBV4js_E/maxresdefault.jpg' ],
-
+						'thumbnail' => [ 'url' => 'https://img.youtube.com/vi/XHOmBV4js_E/maxresdefault.jpg' ],
 					],
 					[
-						'title' => __( 'Sample Video', 'elementor-pro' ),
+						'title' => esc_html__( 'Sample Video', 'elementor-pro' ),
 						'youtube_url' => 'https://www.youtube.com/watch?v=XHOmBV4js_E',
 						'duration' => '0:16',
-						'thumbnail' => [ 'url' => 'http://img.youtube.com/vi/XHOmBV4js_E/maxresdefault.jpg' ],
-
+						'thumbnail' => [ 'url' => 'https://img.youtube.com/vi/XHOmBV4js_E/maxresdefault.jpg' ],
 					],
 					[
-						'title' => __( 'Sample Video', 'elementor-pro' ),
+						'title' => esc_html__( 'Sample Video', 'elementor-pro' ),
 						'youtube_url' => 'https://www.youtube.com/watch?v=XHOmBV4js_E',
 						'duration' => '0:16',
-						'thumbnail' => [ 'url' => 'http://img.youtube.com/vi/XHOmBV4js_E/maxresdefault.jpg' ],
-
+						'thumbnail' => [ 'url' => 'https://img.youtube.com/vi/XHOmBV4js_E/maxresdefault.jpg' ],
 					],
 				],
 				'frontend_available' => true,
@@ -318,20 +337,20 @@ class Video_Playlist extends Base_Widget {
 		$this->start_controls_section(
 			'section_inner_tab',
 			[
-				'label' => __( 'Tabs', 'elementor-pro' ),
+				'label' => esc_html__( 'Tabs', 'elementor-pro' ),
 			]
 		);
 
 		$this->add_control(
 			'inner_tab_title_1',
 			[
-				'label' => __( 'Tab 1 Name', 'elementor-pro' ),
+				'label' => esc_html__( 'Tab 1 Name', 'elementor-pro' ),
 				'type' => Controls_Manager::TEXT,
-				'default' => __( 'Tab #1', 'elementor-pro' ),
+				'default' => esc_html__( 'Tab #1', 'elementor-pro' ),
 				'dynamic' => [
 					'active' => true,
 				],
-				'placeholder' => __( 'Name', 'elementor-pro' ),
+				'placeholder' => esc_html__( 'Name', 'elementor-pro' ),
 				'frontend_available' => true,
 			]
 		);
@@ -339,13 +358,13 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'inner_tab_title_2',
 			[
-				'label' => __( 'Tab 2 Name', 'elementor-pro' ),
+				'label' => esc_html__( 'Tab 2 Name', 'elementor-pro' ),
 				'type' => Controls_Manager::TEXT,
-				'default' => __( 'Tab #2', 'elementor-pro' ),
+				'default' => esc_html__( 'Tab #2', 'elementor-pro' ),
 				'dynamic' => [
 					'active' => true,
 				],
-				'placeholder' => __( 'Name', 'elementor-pro' ),
+				'placeholder' => esc_html__( 'Name', 'elementor-pro' ),
 				'frontend_available' => true,
 			]
 		);
@@ -353,10 +372,10 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'inner_tab_is_content_collapsible',
 			[
-				'label' => __( 'Collapsible', 'elementor-pro' ),
+				'label' => esc_html__( 'Collapsible', 'elementor-pro' ),
 				'type' => Controls_Manager::SWITCHER,
-				'label_on' => __( 'Show', 'elementor-pro' ),
-				'label_off' => __( 'Hide', 'elementor-pro' ),
+				'label_on' => esc_html__( 'Show', 'elementor-pro' ),
+				'label_off' => esc_html__( 'Hide', 'elementor-pro' ),
 				'return_value' => 'collapsible',
 				'default' => '',
 				'separator' => 'before',
@@ -367,13 +386,13 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'inner_tab_label_show_more',
 			[
-				'label' => __( 'Read More Label', 'elementor-pro' ),
+				'label' => esc_html__( 'Read More Label', 'elementor-pro' ),
 				'type' => Controls_Manager::TEXT,
 				'dynamic' => [
 					'active' => true,
 				],
-				'placeholder' => __( 'Show More', 'elementor-pro' ),
-				'default' => __( 'Show More', 'elementor-pro' ),
+				'placeholder' => esc_html__( 'Show More', 'elementor-pro' ),
+				'default' => esc_html__( 'Show More', 'elementor-pro' ),
 				'condition' => [
 					'inner_tab_is_content_collapsible' => 'collapsible',
 				],
@@ -383,13 +402,13 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'inner_tab_label_show_less',
 			[
-				'label' => __( 'Read Less Label', 'elementor-pro' ),
+				'label' => esc_html__( 'Read Less Label', 'elementor-pro' ),
 				'type' => Controls_Manager::TEXT,
 				'dynamic' => [
 					'active' => true,
 				],
-				'placeholder' => __( 'Show Less', 'elementor-pro' ),
-				'default' => __( 'Show Less', 'elementor-pro' ),
+				'placeholder' => esc_html__( 'Show Less', 'elementor-pro' ),
+				'default' => esc_html__( 'Show Less', 'elementor-pro' ),
 				'condition' => [
 					'inner_tab_is_content_collapsible' => 'collapsible',
 				],
@@ -399,7 +418,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_responsive_control(
 			'inner_tab_collapsible_height',
 			[
-				'label' => __( 'Height', 'elementor-pro' ),
+				'label' => esc_html__( 'Height', 'elementor-pro' ),
 				'type' => Controls_Manager::SLIDER,
 				'default' => [
 					'size' => '54',
@@ -427,24 +446,24 @@ class Video_Playlist extends Base_Widget {
 		$this->start_controls_section(
 			'section_image_overlay',
 			[
-				'label' => __( 'Image Overlay', 'elementor-pro' ),
+				'label' => esc_html__( 'Image Overlay', 'elementor-pro' ),
 			]
 		);
 
 		$this->add_control(
 			'show_image_overlay',
 			[
-				'label' => __( 'Image Overlay', 'elementor-pro' ),
+				'label' => esc_html__( 'Image Overlay', 'elementor-pro' ),
 				'type' => Controls_Manager::SWITCHER,
-				'label_off' => __( 'Hide', 'elementor-pro' ),
-				'label_on' => __( 'Show', 'elementor-pro' ),
+				'label_off' => esc_html__( 'Hide', 'elementor-pro' ),
+				'label_on' => esc_html__( 'Show', 'elementor-pro' ),
 			]
 		);
 
 		$this->add_control(
 			'image_overlay',
 			[
-				'label' => __( 'Choose Image', 'elementor-pro' ),
+				'label' => esc_html__( 'Choose Image', 'elementor-pro' ),
 				'type' => Controls_Manager::MEDIA,
 				'default' => [
 					'url' => Utils::get_placeholder_image_src(),
@@ -473,7 +492,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'show_play_icon',
 			[
-				'label' => __( 'Play Icon', 'elementor-pro' ),
+				'label' => esc_html__( 'Play Icon', 'elementor-pro' ),
 				'type' => Controls_Manager::ICONS,
 				'fa4compatibility' => 'icon',
 				'default' => [
@@ -493,23 +512,23 @@ class Video_Playlist extends Base_Widget {
 		$this->start_controls_section(
 			'section_additional_options',
 			[
-				'label' => __( 'Additional Options', 'elementor-pro' ),
+				'label' => esc_html__( 'Additional Options', 'elementor-pro' ),
 			]
 		);
 
 		$this->add_control(
 			'tabs_alignment',
 			[
-				'label' => __( 'Layout', 'elementor-pro' ),
+				'label' => esc_html__( 'Layout', 'elementor-pro' ),
 				'type' => Controls_Manager::CHOOSE,
 				'default' => 'right',
 				'options' => [
 					'start' => [
-						'title' => __( 'Left', 'elementor-pro' ),
+						'title' => esc_html__( 'Left', 'elementor-pro' ),
 						'icon' => 'eicon-h-align-left',
 					],
 					'end' => [
-						'title' => __( 'Right', 'elementor-pro' ),
+						'title' => esc_html__( 'Right', 'elementor-pro' ),
 						'icon' => 'eicon-h-align-right',
 					],
 				],
@@ -520,7 +539,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'heading_autoplay',
 			[
-				'label' => __( 'Autoplay', 'elementor-pro' ),
+				'label' => esc_html__( 'Autoplay', 'elementor-pro' ),
 				'type' => Controls_Manager::HEADING,
 			]
 		);
@@ -528,20 +547,21 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'autoplay_on_load',
 			[
-				'label' => __( 'On Load', 'elementor-pro' ),
+				'label' => esc_html__( 'On Load', 'elementor-pro' ),
 				'type' => Controls_Manager::SWITCHER,
-				'label_on' => __( 'Show', 'elementor-pro' ),
-				'label_off' => __( 'Hide', 'elementor-pro' ),
+				'label_on' => esc_html__( 'Show', 'elementor-pro' ),
+				'label_off' => esc_html__( 'Hide', 'elementor-pro' ),
 				'frontend_available' => true,
 			]
 		);
+
 		$this->add_control(
 			'autoplay_next',
 			[
-				'label' => __( 'Next Up', 'elementor-pro' ),
+				'label' => esc_html__( 'Next Up', 'elementor-pro' ),
 				'type' => Controls_Manager::SWITCHER,
-				'label_on' => __( 'Show', 'elementor-pro' ),
-				'label_off' => __( 'Hide', 'elementor-pro' ),
+				'label_on' => esc_html__( 'Show', 'elementor-pro' ),
+				'label_off' => esc_html__( 'Hide', 'elementor-pro' ),
 				'frontend_available' => true,
 			]
 		);
@@ -549,7 +569,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'show_watched_indication',
 			[
-				'label' => __( 'Indicate Watched', 'elementor-pro' ),
+				'label' => esc_html__( 'Indicate Watched', 'elementor-pro' ),
 				'type' => Controls_Manager::SWITCHER,
 				'separator' => 'before',
 				'frontend_available' => true,
@@ -559,7 +579,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'show_video_count',
 			[
-				'label' => __( 'Video Count', 'elementor-pro' ),
+				'label' => esc_html__( 'Video Count', 'elementor-pro' ),
 				'type' => Controls_Manager::SWITCHER,
 				'default' => 'yes',
 			]
@@ -568,10 +588,10 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'show_duration',
 			[
-				'label' => __( 'Duration', 'elementor-pro' ),
+				'label' => esc_html__( 'Duration', 'elementor-pro' ),
 				'type' => Controls_Manager::SWITCHER,
-				'label_on' => __( 'Show', 'elementor-pro' ),
-				'label_off' => __( 'Hide', 'elementor-pro' ),
+				'label_on' => esc_html__( 'Show', 'elementor-pro' ),
+				'label_off' => esc_html__( 'Hide', 'elementor-pro' ),
 				'default' => 'yes',
 			]
 		);
@@ -579,10 +599,10 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'show_thumbnail',
 			[
-				'label' => __( 'Thumbnails', 'elementor-pro' ),
+				'label' => esc_html__( 'Thumbnails', 'elementor-pro' ),
 				'type' => Controls_Manager::SWITCHER,
-				'label_on' => __( 'Show', 'elementor-pro' ),
-				'label_off' => __( 'Hide', 'elementor-pro' ),
+				'label_on' => esc_html__( 'Show', 'elementor-pro' ),
+				'label_off' => esc_html__( 'Hide', 'elementor-pro' ),
 				'default' => 'yes',
 			]
 		);
@@ -590,12 +610,12 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'play_icon',
 			[
-				'label' => __( 'Play Icon', 'elementor-pro' ),
+				'label' => esc_html__( 'Play Icon', 'elementor-pro' ),
 				'type' => Controls_Manager::ICONS,
 				'fa4compatibility' => 'icon',
 				'default' => [
-					'value' => 'far fa-play-circle',
-					'library' => 'fa-regular',
+					'value' => 'fas fa-play-circle',
+					'library' => 'fa-solid',
 				],
 				'label_block' => false,
 				'skin' => 'inline',
@@ -605,12 +625,12 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'watched_icon',
 			[
-				'label' => __( 'Watched Icon', 'elementor-pro' ),
+				'label' => esc_html__( 'Watched Icon', 'elementor-pro' ),
 				'type' => Controls_Manager::ICONS,
 				'fa4compatibility' => 'icon',
 				'default' => [
-					'value' => 'far fa-check-circle',
-					'library' => 'fa-regular',
+					'value' => 'fas fa-check-circle',
+					'library' => 'fa-solid',
 				],
 				'label_block' => false,
 				'skin' => 'inline',
@@ -620,10 +640,9 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'lazy_load',
 			[
-				'label' => __( 'Lazy Load', 'elementor-pro' ),
+				'label' => esc_html__( 'Lazy Load', 'elementor-pro' ),
 				'type' => Controls_Manager::SWITCHER,
 				'separator' => 'before',
-				'return_value' => true,
 				'frontend_available' => true,
 			]
 		);
@@ -633,7 +652,7 @@ class Video_Playlist extends Base_Widget {
 		$this->start_controls_section(
 			'section_style_layout',
 			[
-				'label' => __( 'Layout', 'elementor-pro' ),
+				'label' => esc_html__( 'Layout', 'elementor-pro' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -641,7 +660,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_responsive_control(
 			'layout_height',
 			[
-				'label' => __( 'Height', 'elementor-pro' ),
+				'label' => esc_html__( 'Height', 'elementor-pro' ),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => [ 'px', 'vh', 'vw' ],
 				'range' => [
@@ -669,7 +688,7 @@ class Video_Playlist extends Base_Widget {
 		$this->start_controls_section(
 			'section_style_top_bar',
 			[
-				'label' => __( 'Top Bar', 'elementor-pro' ),
+				'label' => esc_html__( 'Top Bar', 'elementor-pro' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -677,7 +696,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'heading_playlist_name',
 			[
-				'label' => __( 'Playlist Name', 'elementor-pro' ),
+				'label' => esc_html__( 'Playlist Name', 'elementor-pro' ),
 				'type' => Controls_Manager::HEADING,
 			]
 		);
@@ -685,7 +704,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'playlist_name_background',
 			[
-				'label' => __( 'Background', 'elementor-pro' ),
+				'label' => esc_html__( 'Background', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .e-tabs-header' => 'background-color: {{VALUE}};',
@@ -696,7 +715,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'playlist_name_color',
 			[
-				'label' => __( 'Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'default' => '',
 				'selectors' => [
@@ -719,7 +738,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'heading_videos_amount',
 			[
-				'label' => __( 'Videos Amount', 'elementor-pro' ),
+				'label' => esc_html__( 'Video Count', 'elementor-pro' ),
 				'type' => Controls_Manager::HEADING,
 			]
 		);
@@ -727,11 +746,13 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'videos_amount_color',
 			[
-				'label' => __( 'Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'default' => '',
 				'selectors' => [
 					'{{WRAPPER}} .e-tabs-header .e-tabs-videos-count' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .e-tabs-header .e-tabs-header-right-side i' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .e-tabs-header .e-tabs-header-right-side svg' => 'fill: {{VALUE}};',
 				],
 				'global' => [
 					'default' => Global_Colors::COLOR_TEXT,
@@ -752,7 +773,7 @@ class Video_Playlist extends Base_Widget {
 		$this->start_controls_section(
 			'section_style_videos',
 			[
-				'label' => __( 'Videos', 'elementor-pro' ),
+				'label' => esc_html__( 'Videos', 'elementor-pro' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -762,14 +783,14 @@ class Video_Playlist extends Base_Widget {
 		$this->start_controls_tab(
 			'playlist_tabs_normal',
 			[
-				'label' => __( 'Normal', 'elementor-pro' ),
+				'label' => esc_html__( 'Normal', 'elementor-pro' ),
 			]
 		);
 
 		$this->add_control(
 			'heading_tab_normal',
 			[
-				'label' => __( 'Item', 'elementor-pro' ),
+				'label' => esc_html__( 'Item', 'elementor-pro' ),
 				'type' => Controls_Manager::HEADING,
 			]
 		);
@@ -777,7 +798,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'normal_background',
 			[
-				'label' => __( 'Background', 'elementor-pro' ),
+				'label' => esc_html__( 'Background', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .e-tab-title' => 'background-color: {{VALUE}};',
@@ -791,7 +812,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'normal_color',
 			[
-				'label' => __( 'Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .e-tab-title .e-tab-title-text' => 'color: {{VALUE}};',
@@ -817,7 +838,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'heading_duration_normal',
 			[
-				'label' => __( 'Duration', 'elementor-pro' ),
+				'label' => esc_html__( 'Duration', 'elementor-pro' ),
 				'type' => Controls_Manager::HEADING,
 			]
 		);
@@ -825,7 +846,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'normal_duration_color',
 			[
-				'label' => __( 'Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .e-tab-title .e-tab-duration' => 'color: {{VALUE}};',
@@ -847,7 +868,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'heading_icon_normal',
 			[
-				'label' => __( 'Icon', 'elementor-pro' ),
+				'label' => esc_html__( 'Icon', 'elementor-pro' ),
 				'type' => Controls_Manager::HEADING,
 			]
 		);
@@ -855,7 +876,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'normal_icon_color',
 			[
-				'label' => __( 'Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .e-tab-title i' => 'color: {{VALUE}};',
@@ -874,26 +895,28 @@ class Video_Playlist extends Base_Widget {
 					'text_shadow_type' => [
 						'label' => _x( 'Shadow', 'Text Shadow Control', 'elementor-pro' ),
 					],
+					'text_shadow' => [
+						'selectors' => [
+							'{{WRAPPER}} .e-tab-title i' => 'text-shadow: {{HORIZONTAL}}px {{VERTICAL}}px {{BLUR}}px {{COLOR}};',
+							'{{WRAPPER}} .e-tab-title svg' => 'filter: drop-shadow({{HORIZONTAL}}px {{VERTICAL}}px {{BLUR}}px {{COLOR}});',
+						],
+					],
 				],
-				'selector' => '{{WRAPPER}} .e-tab-title i, {{WRAPPER}} .e-tab-title svg',
 			]
 		);
 
 		$this->add_responsive_control(
 			'normal_icon_size',
 			[
-				'label' => __( 'Size', 'elementor-pro' ),
+				'label' => esc_html__( 'Size', 'elementor-pro' ),
 				'type' => Controls_Manager::SLIDER,
-				'default' => [
-					'size' => '16',
-				],
 				'range' => [
 					'min' => 10,
 					'max' => 30,
 				],
 				'selectors' => [
-					'{{WRAPPER}} .e-tab-title i' => 'font-size: {{SIZE}}px',
-					'{{WRAPPER}} .e-tab-title svg' => 'width: {{SIZE}}px;height: {{SIZE}}px;',
+					'{{WRAPPER}}' => '--playlist-item-icon-size: {{SIZE}}px',
+					'{{WRAPPER}}' => '--playlist-item-icon-size: {{SIZE}}px',
 				],
 			]
 		);
@@ -901,7 +924,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'heading_separator_normal',
 			[
-				'label' => __( 'Separator', 'elementor-pro' ),
+				'label' => esc_html__( 'Separator', 'elementor-pro' ),
 				'type' => Controls_Manager::HEADING,
 				'separator' => 'before',
 			]
@@ -910,11 +933,11 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'normal_separator_style',
 			[
-				'label' => __( 'Style', 'elementor-pro' ),
+				'label' => esc_html__( 'Style', 'elementor-pro' ),
 				'type' => Controls_Manager::SELECT,
 				'default' => '',
 				'options' => [
-					'' => __( 'None', 'elementor-pro' ),
+					'' => esc_html__( 'None', 'elementor-pro' ),
 					'solid' => _x( 'Solid', 'Border Control', 'elementor-pro' ),
 					'double' => _x( 'Double', 'Border Control', 'elementor-pro' ),
 					'dotted' => _x( 'Dotted', 'Border Control', 'elementor-pro' ),
@@ -930,7 +953,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_responsive_control(
 			'normal_separator_weight',
 			[
-				'label' => __( 'Weight', 'elementor-pro' ),
+				'label' => esc_html__( 'Weight', 'elementor-pro' ),
 				'type' => Controls_Manager::SLIDER,
 				'range' => [
 					'min' => 0,
@@ -948,7 +971,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'normal_separator_color',
 			[
-				'label' => __( 'Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .e-tab-title' => 'border-color: {{VALUE}};',
@@ -964,14 +987,14 @@ class Video_Playlist extends Base_Widget {
 		$this->start_controls_tab(
 			'playlist_tabs_active',
 			[
-				'label' => __( 'Active', 'elementor-pro' ),
+				'label' => esc_html__( 'Active', 'elementor-pro' ),
 			]
 		);
 
 		$this->add_control(
 			'heading_tab_active',
 			[
-				'label' => __( 'Item', 'elementor-pro' ),
+				'label' => esc_html__( 'Item', 'elementor-pro' ),
 				'type' => Controls_Manager::HEADING,
 			]
 		);
@@ -979,7 +1002,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'active_background',
 			[
-				'label' => __( 'Background', 'elementor-pro' ),
+				'label' => esc_html__( 'Background', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .e-tabs-items-wrapper .e-tabs-items .e-tab-title:where( .e-active, :hover )' => 'background-color: {{VALUE}};',
@@ -990,7 +1013,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'active_color',
 			[
-				'label' => __( 'Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'default' => '#556068',
 				'selectors' => [
@@ -1017,7 +1040,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'heading_duration_active',
 			[
-				'label' => __( 'Duration', 'elementor-pro' ),
+				'label' => esc_html__( 'Duration', 'elementor-pro' ),
 				'type' => Controls_Manager::HEADING,
 			]
 		);
@@ -1025,7 +1048,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'active_duration_color',
 			[
-				'label' => __( 'Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'default' => '',
 				'selectors' => [
@@ -1048,7 +1071,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'heading_icon_active',
 			[
-				'label' => __( 'Icon', 'elementor-pro' ),
+				'label' => esc_html__( 'Icon', 'elementor-pro' ),
 				'type' => Controls_Manager::HEADING,
 			]
 		);
@@ -1056,7 +1079,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'active_icon_color',
 			[
-				'label' => __( 'Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .e-tabs-items-wrapper .e-tab-title:where( .e-active, :hover ) i' => 'color: {{VALUE}};',
@@ -1082,11 +1105,8 @@ class Video_Playlist extends Base_Widget {
 		$this->add_responsive_control(
 			'active_icon_size',
 			[
-				'label' => __( 'Size', 'elementor-pro' ),
+				'label' => esc_html__( 'Size', 'elementor-pro' ),
 				'type' => Controls_Manager::SLIDER,
-				'default' => [
-					'size' => '16',
-				],
 				'range' => [
 					'min' => 10,
 					'max' => 30,
@@ -1101,7 +1121,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'heading_separator_active',
 			[
-				'label' => __( 'Separator', 'elementor-pro' ),
+				'label' => esc_html__( 'Separator', 'elementor-pro' ),
 				'type' => Controls_Manager::HEADING,
 				'separator' => 'before',
 			]
@@ -1110,11 +1130,11 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'active_separator_style',
 			[
-				'label' => __( 'Style', 'elementor-pro' ),
+				'label' => esc_html__( 'Style', 'elementor-pro' ),
 				'type' => Controls_Manager::SELECT,
 				'default' => '',
 				'options' => [
-					'' => __( 'None', 'elementor-pro' ),
+					'' => esc_html__( 'None', 'elementor-pro' ),
 					'solid' => _x( 'Solid', 'Border Control', 'elementor-pro' ),
 					'double' => _x( 'Double', 'Border Control', 'elementor-pro' ),
 					'dotted' => _x( 'Dotted', 'Border Control', 'elementor-pro' ),
@@ -1130,7 +1150,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_responsive_control(
 			'active_separator_weight',
 			[
-				'label' => __( 'Weight', 'elementor-pro' ),
+				'label' => esc_html__( 'Weight', 'elementor-pro' ),
 				'type' => Controls_Manager::SLIDER,
 				'range' => [
 					'min' => 0,
@@ -1148,7 +1168,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'active_separator_color',
 			[
-				'label' => __( 'Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .e-tabs-items-wrapper .e-tabs-items .e-tab-title.e-active' => 'border-color: {{VALUE}};',
@@ -1168,7 +1188,7 @@ class Video_Playlist extends Base_Widget {
 		$this->start_controls_section(
 			'section_style_sections',
 			[
-				'label' => __( 'Sections', 'elementor-pro' ),
+				'label' => esc_html__( 'Sections', 'elementor-pro' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -1176,7 +1196,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'heading_section',
 			[
-				'label' => __( 'Section', 'elementor-pro' ),
+				'label' => esc_html__( 'Section', 'elementor-pro' ),
 				'type' => Controls_Manager::HEADING,
 			]
 		);
@@ -1184,7 +1204,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'section_background',
 			[
-				'label' => __( 'Background', 'elementor-pro' ),
+				'label' => esc_html__( 'Background', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .e-tabs-items-wrapper .e-section-title' => 'background-color: {{VALUE}};',
@@ -1195,7 +1215,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'section_color',
 			[
-				'label' => __( 'Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'default' => '',
 				'selectors' => [
@@ -1218,11 +1238,11 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'section_border_type',
 			[
-				'label' => __( 'Border Type', 'elementor-pro' ),
+				'label' => esc_html__( 'Border Type', 'elementor-pro' ),
 				'type' => Controls_Manager::SELECT,
 				'default' => 'solid',
 				'options' => [
-					'' => __( 'None', 'elementor-pro' ),
+					'' => esc_html__( 'None', 'elementor-pro' ),
 					'solid' => _x( 'Solid', 'Border Control', 'elementor-pro' ),
 					'double' => _x( 'Double', 'Border Control', 'elementor-pro' ),
 					'dotted' => _x( 'Dotted', 'Border Control', 'elementor-pro' ),
@@ -1238,7 +1258,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_responsive_control(
 			'section_border_width',
 			[
-				'label' => __( 'Width', 'elementor-pro' ),
+				'label' => esc_html__( 'Width', 'elementor-pro' ),
 				'type' => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors' => [
@@ -1250,7 +1270,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'section_border_color',
 			[
-				'label' => __( 'Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .e-tabs-items-wrapper .e-section-title' => 'border-color: {{VALUE}};',
@@ -1262,7 +1282,7 @@ class Video_Playlist extends Base_Widget {
 		$this->start_controls_section(
 			'section_inner_tab_style',
 			[
-				'label' => __( 'Tabs', 'elementor-pro' ),
+				'label' => esc_html__( 'Tabs', 'elementor-pro' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -1270,7 +1290,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_responsive_control(
 			'inner_tab_border_width',
 			[
-				'label' => __( 'Border Width', 'elementor-pro' ),
+				'label' => esc_html__( 'Border Width', 'elementor-pro' ),
 				'type' => Controls_Manager::SLIDER,
 				'range' => [
 					'min' => 0,
@@ -1286,7 +1306,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'inner_tab_border_color',
 			[
-				'label' => __( 'Border Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Border Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .e-tabs-inner-tabs .e-inner-tabs-wrapper' => '--inner-tabs-border-color: {{VALUE}};',
@@ -1297,7 +1317,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'inner_tab_background_color',
 			[
-				'label' => __( 'Background Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Background Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .e-tabs-inner-tabs .e-inner-tabs-wrapper .e-inner-tab-active' => 'background-color: {{VALUE}};',
@@ -1310,7 +1330,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'heading_inner_tab_title',
 			[
-				'label' => __( 'Title', 'elementor-pro' ),
+				'label' => esc_html__( 'Title', 'elementor-pro' ),
 				'type' => Controls_Manager::HEADING,
 				'separator' => 'before',
 			]
@@ -1319,7 +1339,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'inner_tab_title_color',
 			[
-				'label' => __( 'Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .e-tabs-inner-tabs .e-inner-tabs-wrapper .e-inner-tab-title a' => 'color: {{VALUE}};',
@@ -1330,7 +1350,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'inner_tab_active_title_color',
 			[
-				'label' => __( 'Active Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Active Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .e-tabs-inner-tabs .e-inner-tabs-wrapper .e-inner-tab-title.e-inner-tab-active a' => 'color: {{VALUE}};',
@@ -1353,7 +1373,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'heading_inner_tab_content',
 			[
-				'label' => __( 'Content', 'elementor-pro' ),
+				'label' => esc_html__( 'Content', 'elementor-pro' ),
 				'type' => Controls_Manager::HEADING,
 				'separator' => 'before',
 			]
@@ -1362,7 +1382,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'inner_tab_content_color',
 			[
-				'label' => __( 'Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .e-tabs-inner-tabs .e-inner-tabs-content-wrapper .e-inner-tab-content .e-inner-tab-text' => 'color: {{VALUE}};',
@@ -1384,7 +1404,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_responsive_control(
 			'inner_tab_content_padding',
 			[
-				'label' => __( 'Padding', 'elementor-pro' ),
+				'label' => esc_html__( 'Padding', 'elementor-pro' ),
 				'type' => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors' => [
@@ -1396,7 +1416,7 @@ class Video_Playlist extends Base_Widget {
 		$this->add_control(
 			'heading_inner_tab_show_more',
 			[
-				'label' => __( 'Show More', 'elementor-pro' ),
+				'label' => esc_html__( 'Show More', 'elementor-pro' ),
 				'type' => Controls_Manager::HEADING,
 				'separator' => 'before',
 			]
@@ -1407,14 +1427,14 @@ class Video_Playlist extends Base_Widget {
 		$this->start_controls_tab(
 			'inner_tab_normal_show_more',
 			[
-				'label' => __( 'Normal', 'elementor-pro' ),
+				'label' => esc_html__( 'Normal', 'elementor-pro' ),
 			]
 		);
 
 		$this->add_control(
 			'inner_tab_normal_show_more_color',
 			[
-				'label' => __( 'Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .e-tabs-inner-tabs .e-inner-tabs-content-wrapper .e-inner-tab-content button' => 'color: {{VALUE}};',
@@ -1430,14 +1450,14 @@ class Video_Playlist extends Base_Widget {
 		$this->start_controls_tab(
 			'inner_tab_hover_show_more',
 			[
-				'label' => __( 'Hover', 'elementor-pro' ),
+				'label' => esc_html__( 'Hover', 'elementor-pro' ),
 			]
 		);
 
 		$this->add_control(
 			'inner_tab_hover_show_more_color',
 			[
-				'label' => __( 'Color', 'elementor-pro' ),
+				'label' => esc_html__( 'Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .e-tabs-inner-tabs .e-inner-tabs-content-wrapper .e-inner-tab-content button:hover' => 'color: {{VALUE}};',
@@ -1468,33 +1488,30 @@ class Video_Playlist extends Base_Widget {
 
 	private function create_playlist_item_tabs_array( $playlist_item, $playlist_item_index, $tab_1_title, $tab_2_title ) {
 		$playlist_item_tabs_array = [];
-		$playlist_item_tabs_content = [];
-		$playlist_item_tabs_title = [];
 		$is_already_activated_tab = false;
 
-		if ( $playlist_item['inner_tab_content_1'] ) {
-			$playlist_item_tabs_content[] = $playlist_item['inner_tab_content_1'];
-			$playlist_item_tabs_title[] = $tab_1_title;
-		}
+		$playlist_item_tabs_content = [
+			$playlist_item['inner_tab_content_1'],
+			$playlist_item['inner_tab_content_2'],
+		];
 
-		if ( $playlist_item['inner_tab_content_2'] ) {
-			$playlist_item_tabs_content[] = $playlist_item['inner_tab_content_2'];
-			$playlist_item_tabs_title[] = $tab_2_title;
-		}
+		$playlist_item_tabs_title = [
+			$tab_1_title,
+			$tab_2_title,
+		];
 
 		foreach ( $playlist_item_tabs_content as $index => $playlist_item_tab_content ) {
 			$playlist_item_tab_content_object = new \stdClass();
 			$playlist_item_tab_content_object->tab_title = $playlist_item_tabs_title[ $index ];
 			$playlist_item_tab_content_object->tab_content = $playlist_item_tab_content;
 
+			$tab_index = $index + 1;
+			$playlist_item_tab_content_object->tab_content_setting_key = $this->get_repeater_setting_key( 'inner_tab_content_' . $tab_index, 'tabs', $playlist_item_index );
+
 			if ( $playlist_item_tab_content ) {
 				$playlist_item_tab_content_object->tab_attribute = ! $is_already_activated_tab ? '' : 'hidden';
 				$playlist_item_tab_content_object->tab_class = ! $is_already_activated_tab ? 'e-inner-tab-active' : '';
 				$is_already_activated_tab = true;
-
-				$tab_index = $index + 1;
-				$playlist_item_tab_content_object->tab_content_setting_key = $this->get_repeater_setting_key( 'inner_tab_content_' . $tab_index, 'tabs', $playlist_item_index );
-
 			}
 
 			$playlist_item_tabs_array [] = $playlist_item_tab_content_object;
@@ -1559,12 +1576,15 @@ class Video_Playlist extends Base_Widget {
 
 			switch ( $playlist_item['type'] ) {
 				case 'youtube':
+				case 'vimeo':
 				case 'hosted':
 					$playlist_item_object->type = $playlist_item['type'];
 					$playlist_item_object->video_title = $playlist_item['title'];
 
 					if ( $playlist_item['youtube_url'] && 'youtube' === $playlist_item['type'] ) {
 						$playlist_item_object->video_url = $playlist_item['youtube_url'];
+					} elseif ( $playlist_item['vimeo_url'] && 'vimeo' === $playlist_item['type'] ) {
+						$playlist_item_object->video_url = $playlist_item['vimeo_url'];
 					} elseif ( $playlist_item['external_url'] && 'hosted' === $playlist_item['type'] && 'yes' === $playlist_item['is_external_url'] ) {
 						$playlist_item_object->video_url = $playlist_item['external_url']['url'];
 					} elseif ( $playlist_item['hosted_url'] && 'hosted' === $playlist_item['type'] && 'yes' !== $playlist_item['is_external_url'] ) {
@@ -1664,12 +1684,27 @@ class Video_Playlist extends Base_Widget {
 			<div class="e-tabs-main-area">
 				<div class="e-tabs-wrapper">
 					<div class="e-tabs-header">
-						<h2 class="e-tabs-title"><?php echo $playlist_object->playlist_name; ?></h2>
+						<?php // PHPCS - the main text of a widget should not be escaped. ?>
+						<h2 class="e-tabs-title"><?php echo $playlist_object->playlist_name; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></h2>
 						<div class="e-tabs-header-right-side">
 							<?php if ( $playlist_object->is_show_video_count ) : ?>
-								<span class="e-tabs-videos-count"><?php echo $playlist_object->video_count; ?> <?php echo __( 'Videos', 'elementor-pro' ); ?></span>
+								<span class="e-tabs-videos-count"><?php echo esc_attr( $playlist_object->video_count ); ?> <?php echo esc_html__( 'Videos', 'elementor-pro' ); ?></span>
 							<?php endif; ?>
-							<i class="e-tabs-toggle-videos-display-button eicon-caret-down rotate-down" aria-hidden="true"></i>
+							<?php
+								Icons_Manager::render_icon(
+									[
+										'library' => 'eicons',
+										'value' => 'eicon-caret-down',
+									],
+									[
+										'aria-hidden' => 'true',
+										'class' => [
+											'e-tabs-toggle-videos-display-button',
+											'rotate-down',
+										],
+									]
+								);
+							?>
 						</div>
 					</div>
 					<div class="e-tabs-items-wrapper">
@@ -1678,14 +1713,15 @@ class Video_Playlist extends Base_Widget {
 							foreach ( $playlist_object->playlist_items as $item ) : ?>
 								<?php if ( 'section' === $item->type ) : ?>
 									<h3 class="e-section-title">
-										<?php echo $item->section_title; ?>
+										<?php // PHPCS - the main text of a widget should not be escaped. ?>
+										<?php echo $item->section_title; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 									</h3>
 								<?php else : ?>
-									<div <?php echo Utils::render_html_attributes( $item->html_attributes_title->attributes ); ?>>
+									<div <?php Utils::print_html_attributes( $item->html_attributes_title->attributes ); ?>>
 										<?php if ( $playlist_object->show_thumbnails ) : ?>
 											<div class="e-tab-thumbnail">
 												<?php if ( $item->video_thumbnail ) : ?>
-													<img src="<?php echo $item->video_thumbnail; ?>" />
+													<img src="<?php echo esc_url( $item->video_thumbnail ); ?>" />
 												<?php endif; ?>
 												<span class="icon-play"><?php Icons_Manager::render_icon( $playlist_object->play_icon, [ 'aria-hidden' => 'true' ] ); ?></span>
 												<span class="icon-watched"><?php Icons_Manager::render_icon( $playlist_object->watched_icon, [ 'aria-hidden' => 'true' ] ); ?></span>
@@ -1694,13 +1730,14 @@ class Video_Playlist extends Base_Widget {
 											<span class="icon-play"><?php Icons_Manager::render_icon( $playlist_object->play_icon, [ 'aria-hidden' => 'true' ] ); ?></span>
 											<span class="icon-watched"><?php Icons_Manager::render_icon( $playlist_object->watched_icon, [ 'aria-hidden' => 'true' ] ); ?></span>
 										<?php endif; ?>
-										<h4 class="e-tab-title-text" title="<?php echo $item->video_title; ?>">
+										<h4 class="e-tab-title-text" title="<?php echo esc_attr( $item->video_title ); ?>">
 											<a href="">
-												<?php echo $item->video_title; ?>
+												<?php // PHPCS - the main text of a widget should not be escaped. ?>
+												<?php echo $item->video_title; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 											</a>
 										</h4>
 										<?php if ( $item->video_duration ) : ?>
-											<span class="e-tab-duration"><?php echo $item->video_duration; ?></span>
+											<span class="e-tab-duration"><?php echo esc_html( $item->video_duration ); ?></span>
 										<?php endif; ?>
 									</div>
 								<?php endif; ?>
@@ -1713,15 +1750,14 @@ class Video_Playlist extends Base_Widget {
 
 				<div class="e-tabs-content-wrapper" role="tablist" aria-orientation="vertical">
 					<?php foreach ( $playlist_object->playlist_items as $item ) : ?>
-
-						<div <?php echo Utils::render_html_attributes( $item->html_attributes_video->attributes ); ?>>
+						<div <?php Utils::print_html_attributes( $item->html_attributes_video->attributes ); ?>>
 							<div></div>
 							<?php if ( $item->show_overlay_image ) : ?>
-								<div class="elementor-custom-embed-image-overlay elementor-clickable" style="background-image: url('<?php echo $playlist_object->image_overlay_image; ?>');">
+								<div class="elementor-custom-embed-image-overlay elementor-clickable" style="background-image: url('<?php echo esc_url( $playlist_object->image_overlay_image ); ?>');">
 									<?php if ( ! empty( $playlist_object->image_overlay_icon['value'] ) ) : ?>
 										<div class="elementor-custom-embed-play" role="button">
 											<?php Icons_Manager::render_icon( $playlist_object->image_overlay_icon, [ 'aria-hidden' => 'true' ] ); ?>
-											<span class="elementor-screen-only"><?php echo __( 'Play Video', 'elementor-pro' ); ?></span>
+											<span class="elementor-screen-only"><?php echo esc_html__( 'Play Video', 'elementor-pro' ); ?></span>
 										</div>
 									<?php endif; ?>
 								</div>
@@ -1734,13 +1770,13 @@ class Video_Playlist extends Base_Widget {
 			<div class="e-tabs-inner-tabs" >
 				<?php foreach ( $playlist_object->playlist_items as $item ) : ?>
 					<?php if ( $item->is_inner_tabs_visible ) : ?>
-						<div <?php echo Utils::render_html_attributes( $item->html_attributes_video->attributes ); ?>>
+						<div <?php Utils::print_html_attributes( $item->html_attributes_video->attributes ); ?>>
 							<?php if ( count( $item->tabs ) > 0 ) : ?>
 								<div class="e-inner-tabs-wrapper">
 									<?php foreach ( $item->tabs as $tab ) :
 										if ( $tab->tab_content ) { ?>
-											<div class="e-inner-tab-title <?php echo $tab->tab_class; ?>">
-												<a href=""> <?php echo $tab->tab_title; ?> </a>
+											<div class="e-inner-tab-title <?php Utils::print_unescaped_internal_string( $tab->tab_class ); ?>">
+												<a class="e-inner-tab-title-text" href=""><?php Utils::print_unescaped_internal_string( $tab->tab_title ); ?></a>
 											</div>
 										<?php } ?>
 									<?php endforeach; ?>
@@ -1748,19 +1784,22 @@ class Video_Playlist extends Base_Widget {
 								<div class="e-inner-tabs-content-wrapper">
 									<?php foreach ( $item->tabs as $tab ) :
 										if ( $tab->tab_content ) { ?>
-											<div class="e-inner-tab-title e-tab-mobile-title <?php echo $tab->tab_class; ?>">
-												<?php echo $tab->tab_title; ?>
+											<div class="e-inner-tab-title e-tab-mobile-title <?php Utils::print_unescaped_internal_string( $tab->tab_class ); ?>">
+												<?php // PHPCS - the main text of a widget should not be escaped. ?>
+												<?php echo $tab->tab_title; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 											</div>
-											<div <?php echo $tab->tab_attribute; ?> class="e-inner-tab-content <?php echo $tab->tab_class; ?> <?php echo $item->tab_collapsible; ?>">
+											<div <?php Utils::print_unescaped_internal_string( $tab->tab_attribute ); ?> class="e-inner-tab-content <?php Utils::print_unescaped_internal_string( $tab->tab_class ); ?> <?php echo esc_attr( $item->tab_collapsible ); ?>">
 												<div class="e-inner-tab-text">
 													<?php $this->add_inline_editing_attributes( $tab->tab_content_setting_key, 'advanced' ); ?>
-													<div <?php echo $this->get_render_attribute_string( $tab->tab_content_setting_key ); ?>>
-														<?php echo $this->parse_text_editor( $tab->tab_content ); ?>
+													<div <?php $this->print_render_attribute_string( $tab->tab_content_setting_key ); ?>>
+														<?php // PHPCS - the main text of a widget should not be escaped. ?>
+														<?php echo $this->parse_text_editor( $tab->tab_content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 													</div>
 												</div>
 												<div class="e-inner-tab-buttons">
-													<button class="show-button"><?php echo $item->read_more_label; ?></button>
-													<button><?php echo $item->read_less_label; ?></button>
+													<?php // PHPCS - the main text of a widget should not be escaped. ?>
+													<button class="show-button"><?php echo $item->read_more_label; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></button>
+													<button><?php echo $item->read_less_label; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></button>
 												</div>
 											</div>
 										<?php } ?>
@@ -1781,32 +1820,30 @@ class Video_Playlist extends Base_Widget {
 
 		function createPlaylistItemTabsArray( playlistItem, playlistItemIndex, tab1Title, tab2Title ) {
 			var playlistItemTabsArray = [];
-			var playlistItemTabsContent = [];
-			var playlistItemTabsTitle = [];
 			var isAlreadyActivatedTab = false;
 
-			if ( playlistItem.inner_tab_content_1 ) {
-				playlistItemTabsContent.push( playlistItem.inner_tab_content_1 );
-				playlistItemTabsTitle.push( tab1Title );
-			}
+			var playlistItemTabsContent = [
+				playlistItem.inner_tab_content_1,
+				playlistItem.inner_tab_content_2,
+			];
 
-			if ( playlistItem.inner_tab_content_2 ) {
-				playlistItemTabsContent.push( playlistItem.inner_tab_content_2 );
-				playlistItemTabsTitle.push( tab2Title );
-			}
+			var playlistItemTabsTitle = [
+				tab1Title,
+				tab2Title,
+			];
 
 			playlistItemTabsContent.forEach( function( playlistItemTabContent, index ) {
 				var playlistItemTabContentObject = {};
 				playlistItemTabContentObject.tab_title = playlistItemTabsTitle[ index ];
 				playlistItemTabContentObject.tab_content = playlistItemTabContent;
 
+				var tabIndex = index + 1;
+				playlistItemTabContentObject.tabContentSettingKey = view.getRepeaterSettingKey( 'inner_tab_content_' + tabIndex, 'tabs', playlistItemIndex );
+
 				if ( playlistItemTabContent ) {
 					playlistItemTabContentObject.tabAttribute = ! isAlreadyActivatedTab ? '' : 'hidden';
 					playlistItemTabContentObject.tabClass = ! isAlreadyActivatedTab ? 'e-inner-tab-active' : '';
 					isAlreadyActivatedTab = true;
-
-					var tabIndex = index + 1;
-					playlistItemTabContentObject.tabContentSettingKey = view.getRepeaterSettingKey( 'inner_tab_content_' + tabIndex, 'tabs', playlistItemIndex );
 				}
 
 				playlistItemTabsArray.push(playlistItemTabContentObject);
@@ -1872,12 +1909,15 @@ class Video_Playlist extends Base_Widget {
 
 				switch ( playlistItem.type ) {
 					case 'youtube':
+					case 'vimeo':
 					case 'hosted':
 						playlistItemObject.type = playlistItem.type;
 						playlistItemObject.videoTitle = playlistItem.title;
 
 						if ( playlistItem.youtube_url && 'youtube' === playlistItem.type ) {
 							playlistItemObject.videoUrl = playlistItem.youtube_url;
+						} else if ( playlistItem.vimeo_url && 'vimeo' === playlistItem.type ) {
+							playlistItemObject.videoUrl = playlistItem.vimeo_url;
 						} else if ( playlistItem.external_url && 'hosted' === playlistItem.type && 'yes' === playlistItem.is_external_url ) {
 							playlistItemObject.videoUrl = playlistItem.external_url.url;
 						} else if ( playlistItem.hosted_url && 'hosted' === playlistItem.type && 'yes' !== playlistItem.is_external_url ) {
@@ -2067,7 +2107,7 @@ class Video_Playlist extends Base_Widget {
 									<# _.each( item.tabs, function( tab ) { #>
 										<# if ( tab.tab_content ) { #>
 											<div class="e-inner-tab-title {{{ tab.tabClass }}}">
-												<a href=""> {{{ tab.tab_title }}} </a>
+												<a class="e-inner-tab-title-text" href=""> {{{ tab.tab_title }}} </a>
 											</div>
 										<# } #>
 									<# }); #>

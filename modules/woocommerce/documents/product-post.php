@@ -3,6 +3,7 @@ namespace ElementorPro\Modules\Woocommerce\Documents;
 
 use Elementor\Core\DocumentTypes\Post;
 use Elementor\Utils;
+use ElementorPro\Core\Behaviors\Feature_Lock;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
@@ -34,11 +35,17 @@ class Product_Post extends Post {
 	 * @static
 	 */
 	public static function get_title() {
-		return __( 'Product Post', 'elementor-pro' );
+		return esc_html__( 'Product Post', 'elementor-pro' );
 	}
 
 	public static function get_plural_title() {
-		return __( 'Product Posts', 'elementor-pro' );
+		return esc_html__( 'Product Posts', 'elementor-pro' );
+	}
+
+	public static function get_lock_behavior_v2() {
+		return new Feature_Lock( [
+			'type' => static::get_type(),
+		] );
 	}
 
 	protected static function get_editor_panel_categories() {
@@ -51,7 +58,7 @@ class Product_Post extends Post {
 			'theme-elements',
 			[
 				'woocommerce-elements-single' => [
-					'title' => __( 'Product', 'elementor-pro' ),
+					'title' => esc_html__( 'Product', 'elementor-pro' ),
 					'active' => false,
 				],
 			]

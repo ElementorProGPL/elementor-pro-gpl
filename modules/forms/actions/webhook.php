@@ -15,14 +15,14 @@ class Webhook extends Action_Base {
 	}
 
 	public function get_label() {
-		return __( 'Webhook', 'elementor-pro' );
+		return esc_html__( 'Webhook', 'elementor-pro' );
 	}
 
 	public function register_settings_section( $widget ) {
 		$widget->start_controls_section(
 			'section_webhook',
 			[
-				'label' => __( 'Webhook', 'elementor-pro' ),
+				'label' => esc_html__( 'Webhook', 'elementor-pro' ),
 				'condition' => [
 					'submit_actions' => $this->get_name(),
 				],
@@ -32,20 +32,23 @@ class Webhook extends Action_Base {
 		$widget->add_control(
 			'webhooks',
 			[
-				'label' => __( 'Webhook URL', 'elementor-pro' ),
+				'label' => esc_html__( 'Webhook URL', 'elementor-pro' ),
 				'type' => Controls_Manager::TEXT,
-				'placeholder' => __( 'https://your-webhook-url.com', 'elementor-pro' ),
+				'placeholder' => esc_html__( 'https://your-webhook-url.com', 'elementor-pro' ),
 				'label_block' => true,
 				'separator' => 'before',
-				'description' => __( 'Enter the integration URL (like Zapier) that will receive the form\'s submitted data.', 'elementor-pro' ),
+				'description' => esc_html__( 'Enter the integration URL (like Zapier) that will receive the form\'s submitted data.', 'elementor-pro' ),
 				'render_type' => 'none',
+				'dynamic' => [
+					'active' => true,
+				],
 			]
 		);
 
 		$widget->add_control(
 			'webhooks_advanced_data',
 			[
-				'label' => __( 'Advanced Data', 'elementor-pro' ),
+				'label' => esc_html__( 'Advanced Data', 'elementor-pro' ),
 				'type' => Controls_Manager::SWITCHER,
 				'default' => 'no',
 				'render_type' => 'none',
@@ -100,7 +103,8 @@ class Webhook extends Action_Base {
 		/**
 		 * Elementor form webhook response.
 		 *
-		 * Fires when the webhook response is retrieved.
+		 * Fires when the webhook response is retrieved by Elementor forms. This hook
+		 * allows developers to add functionality after recieving webhook responses.
 		 *
 		 * @since 1.0.0
 		 *
@@ -110,7 +114,7 @@ class Webhook extends Action_Base {
 		do_action( 'elementor_pro/forms/webhooks/response', $response, $record );
 
 		if ( 200 !== (int) wp_remote_retrieve_response_code( $response ) ) {
-			throw new \Exception( __( 'Webhook Error', 'elementor-pro' ) );
+			throw new \Exception( esc_html__( 'Webhook Error', 'elementor-pro' ) );
 		}
 	}
 }

@@ -29,12 +29,12 @@ export default function SiteTemplate( props ) {
 		classes.push( `${ baseClassName }--${ props.aspectRatio }` );
 	}
 
-	const CardFooter = props.extended ? <SiteTemplateFooter { ...props }/> : '';
+	const CardFooter = props.extended && props.showInstances ? <SiteTemplateFooter { ...props } /> : '';
 
 	return (
 		<Card className={ classes.join( ' ' ) } ref={ ref }>
-			<SiteTemplateHeader { ... props }/>
-			<SiteTemplateBody { ... props }/>
+			<SiteTemplateHeader { ... props } />
+			<SiteTemplateBody { ... props } />
 			{ CardFooter }
 		</Card>
 	);
@@ -51,6 +51,7 @@ SiteTemplate.propTypes = {
 	title: PropTypes.string.isRequired,
 	isSelected: PropTypes.bool,
 	type: PropTypes.string.isRequired,
+	showInstances: PropTypes.bool,
 };
 
 SiteTemplate.defaultProps = {

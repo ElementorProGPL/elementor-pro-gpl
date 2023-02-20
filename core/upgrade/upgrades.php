@@ -5,6 +5,7 @@ use Elementor\Core\Base\Document;
 use Elementor\Core\Upgrade\Updater;
 use Elementor\Icons_Manager;
 use Elementor\Core\Upgrade\Upgrades as Core_Upgrades;
+use ElementorPro\License\API;
 use ElementorPro\Plugin;
 use Elementor\Modules\History\Revisions_Manager;
 
@@ -13,6 +14,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Upgrades {
+
+	public static $typography_control_names = [
+		'typography', // The popover toggle ('starter_name').
+		'font_family',
+		'font_size',
+		'font_weight',
+		'text_transform',
+		'font_style',
+		'text_decoration',
+		'line_height',
+		'letter_spacing',
+	];
+
+	public static function _on_each_version( $updater ) {
+		self::_remove_remote_info_api_data();
+	}
 
 	public static function _v_1_3_0() {
 		global $wpdb;
@@ -312,6 +329,12 @@ class Upgrades {
 		];
 
 		return self::_update_widget_settings( 'woocommerce-menu-cart', $updater, $changes );
+	}
+
+	public static function _v_3_7_2_woocommerce_rename_related_to_related_products( $updater ) {
+		$changes = self::get_woocommerce_rename_related_to_related_products_changes();
+
+		return self::_update_widget_settings( 'woocommerce-products', $updater, $changes );
 	}
 
 	public static function _slider_to_border_settings( $element, $args ) {
@@ -673,6 +696,17 @@ class Upgrades {
 		return Core_Upgrades::recalc_usage_data( $updater );
 	}
 
+	public static function _v_3_5_0_price_list( $updater ) {
+		$changes = [
+			[
+				'callback' => [ 'ElementorPro\Core\Upgrade\Upgrades', '_copy_title_styles_to_new_price_controls' ],
+				'control_ids' => [],
+			],
+		];
+
+		return self::_update_widget_settings( 'price-list', $updater, $changes );
+	}
+
 	/**
 	 * $changes is an array of arrays in the following format:
 	 * [
@@ -715,7 +749,7 @@ class Upgrades {
 				continue;
 			}
 
-			// loop thru callbacks & array
+			// loop through callbacks & array
 			foreach ( $changes as $change ) {
 				$args = [
 					'do_update' => &$do_update,
@@ -760,6 +794,24 @@ class Upgrades {
 				$element['settings'][ $new ] = $element['settings'][ $old ];
 				$args['do_update'] = true;
 			}
+		}
+
+		return $element;
+	}
+
+
+	/**
+	 * @param $element
+	 * @param $args
+	 *
+	 * @return mixed
+	 */
+	public static function _rename_widget_settings_value( $element, $args ) {
+		$widget_id = $args['widget_id'];
+		$changes = $args['control_ids'];
+
+		if ( self::is_widget_matched( $element, $widget_id ) ) {
+			$element = self::apply_rename( $changes, $element, $args );
 		}
 
 		return $element;
@@ -1034,5 +1086,135 @@ class Upgrades {
 		}
 
 		return $element;
+	}
+
+	/**
+	 * Copy Title Styles to New Price Controls
+	 *
+	 * Copy the values from the  Price List widget's Title Style controls to new Price Style controls.
+	 *
+	 * @param $element
+	 * @param $args
+	 * @return mixed
+	 * @since 3.4.0
+	 *
+	 */
+	public static function _copy_title_styles_to_new_price_controls( $element, $args ) {
+		if ( empty( $element['widgetType'] ) || $args['widget_id'] !== $element['widgetType'] ) {
+			return $element;
+		}
+
+		if ( ! empty( $element['settings']['heading_color'] ) ) {
+			$element['settings']['price_color'] = $element['settings']['heading_color'];
+
+			$args['do_update'] = true;
+		}
+
+		$old_control_prefix = 'heading_typography_';
+		$new_control_prefix = 'price_typography_';
+
+		foreach ( self::$typography_control_names as $control_name ) {
+			if ( ! empty( $element['settings'][ $old_control_prefix . $control_name ] ) ) {
+				$element['settings'][ $new_control_prefix . $control_name ] = $element['settings'][ $old_control_prefix . $control_name ];
+
+				$args['do_update'] = true;
+			}
+		}
+
+		return $element;
+	}
+
+	public static function _remove_remote_info_api_data() {
+		global $wpdb;
+
+		$key = API::TRANSIENT_KEY_PREFIX;
+
+		return $wpdb->query("DELETE FROM {$wpdb->options} WHERE option_name LIKE '{$key}%';"); // phpcs:ignore
+	}
+
+	/**
+	 * @param $element
+	 * @param $to
+	 * @param $control_id
+	 * @param $args
+	 * @return array
+	 */
+	protected static function set_new_value( $element, $to, $control_id, $args ) {
+		$element['settings'][ $control_id ] = $to;
+		$args['do_update'] = true;
+		return $element;
+	}
+
+	/**  *
+	 * @param $change
+	 * @param array $element
+	 * @param $args
+	 * @return array
+	 */
+	protected static function replace_value_if_found( $change, array $element, $args ) {
+		$control_id = key( $args['control_ids'] );
+		$from = $change['from'];
+		$to = $change['to'];
+		if ( self::is_control_exist_in_settings( $element, $control_id ) && self::is_need_to_replace_value( $element, $control_id, $from ) ) {
+			$element = self::set_new_value( $element, $to, $control_id, $args );
+		}
+		return $element;
+	}
+
+	/**
+	 * @param $element
+	 * @param $widget_id
+	 * @return bool
+	 */
+	protected static function is_widget_matched( $element, $widget_id ) {
+		return ! empty( $element['widgetType'] ) && $widget_id === $element['widgetType'];
+	}
+
+	/**
+	 * @param $changes
+	 * @param $element
+	 * @param $args
+	 * @return array|mixed
+	 */
+	protected static function apply_rename( $changes, $element, $args ) {
+		foreach ( $changes as $change ) {
+			$element = self::replace_value_if_found( $change, $element, $args );
+		}
+		return $element;
+	}
+
+	/**
+	 * @param $element
+	 * @param $control_id
+	 * @return bool
+	 */
+	protected static function is_control_exist_in_settings( $element, $control_id ) {
+		return ! empty( $element['settings'][ $control_id ] );
+	}
+
+	/**
+	 * @param $element
+	 * @param $new
+	 * @return bool
+	 */
+	protected static function is_need_to_replace_value( $element, $control_id, $value_to_replace ) {
+		return $element['settings'][ $control_id ] === $value_to_replace;
+	}
+
+	/**
+	 * @return array[]
+	 */
+	public static function get_woocommerce_rename_related_to_related_products_changes() {
+		return [
+			[
+				'callback' => [ 'ElementorPro\Core\Upgrade\Upgrades', '_rename_widget_settings_value' ],
+				'control_ids' => [
+					'query_post_type' => [
+						'from' => 'related',
+						'to' => 'related_products',
+					],
+				],
+			],
+		];
 	}
 }
