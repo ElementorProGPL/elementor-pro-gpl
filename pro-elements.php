@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name: PRO Elements
+ * Plugin Name: PRO Elements (Custom)
  * Description: This plugin enables GPL features of Elementor Pro: widgets, theme builder, dynamic colors & content, forms & popup builder, and more. Note that PRO Elements is not a substitute for Elementor Pro. If you need all Elementor Pro features, including access to pro templates library and dedicated support, we encourage you to <a href="https://elementor.com/pro/" target="_blank">purchase Elementor Pro</a>.
  * Plugin URI: https://proelements.org/
  * Author: PROElements.org
- * Version: 3.8.0
- * Elementor tested up to: 3.7.0
+ * Version: 3.11.1
+ * Elementor tested up to: 3.11.0
  * Author URI: https://proelements.org/
  *
  * Text Domain: elementor-pro
@@ -26,7 +26,7 @@ function pro_elements_plugin_load_plugin() {
 		return;
 	}
 
-	define( 'ELEMENTOR_PRO_VERSION', '3.8.0' );
+	define( 'ELEMENTOR_PRO_VERSION', '3.11.1' );
 
 	define( 'ELEMENTOR_PRO__FILE__', __FILE__ );
 	define( 'ELEMENTOR_PRO_PLUGIN_BASE', plugin_basename( ELEMENTOR_PRO__FILE__ ) );
@@ -50,14 +50,14 @@ function pro_elements_plugin_load_plugin() {
 function pro_elements_load_plugin_func() {
 	load_plugin_textdomain( 'elementor-pro' );
 
-	$elementor_version_required = '3.6.0';
+	$elementor_version_required = '3.8.0';
 	if ( ! version_compare( ELEMENTOR_VERSION, $elementor_version_required, '>=' ) ) {
 		add_action( 'admin_notices', 'pro_elements_plugin_fail_load_out_of_date' );
 
 		return;
 	}
 
-	$elementor_version_recommendation = '3.7.7';
+	$elementor_version_recommendation = '3.9.1';
 	if ( ! version_compare( ELEMENTOR_VERSION, $elementor_version_recommendation, '>=' ) ) {
 		add_action( 'admin_notices', 'pro_elements_admin_notice_upgrade_recommendation' );
 	}
@@ -134,8 +134,13 @@ function pro_elements_admin_notice_upgrade_recommendation() {
 	$file_path = 'elementor/elementor.php';
 
 	$upgrade_link = wp_nonce_url( self_admin_url( 'update.php?action=upgrade-plugin&plugin=' ) . $file_path, 'upgrade-plugin_' . $file_path );
-	$message = '<p>' . esc_html__( 'A new version of Elementor is available. For better performance and compatibility of Pro Elements, we recommend updating to the latest version.', 'elementor-pro' ) . '</p>';
-	$message .= '<p>' . sprintf( '<a href="%s" class="button-primary">%s</a>', $upgrade_link, esc_html__( 'Update Elementor Now', 'elementor-pro' ) ) . '</p>';
+	$message = sprintf(
+		/* translators: 1: Title opening tag, 2: Title closing tag */
+			esc_html__( '%1$sDon’t miss out on the new version of Elementor%2$s Update to the latest version of Elementor to enjoy new features, better performance and compatibility.', 'elementor-pro' ),
+			'<h3>',
+			'</h3>'
+		);
+		$message .= '<p>' . sprintf( '<a href="%s" class="button-primary">%s</a>', $upgrade_link, esc_html__( 'Update Now', 'elementor-pro' ) ) . '</p>';
 
 	pro_elements_print_error($message);
 }
