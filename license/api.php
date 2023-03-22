@@ -178,7 +178,6 @@ class API {
 	}
 
 	public static function get_license_data( $force_request = false ) {
-		$license_data['license'] = self::STATUS_VALID;
 		$license_data['success'] = true;
 		return $license_data;
 	}

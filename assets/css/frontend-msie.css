@@ -1,4 +1,4 @@
-/*! pro-elements - v3.11.1 - 15-02-2023 */
+/*! elementor-pro - v3.11.3 - 26-02-2023 */
 @charset "UTF-8";
 .elementor-bg-transform .elementor-bg {
   will-change: transform;
@@ -2817,7 +2817,7 @@ body.elementor-default .elementor-widget-woocommerce-menu-cart.elementor-menu-ca
   font-family: Roboto, sans-serif;
   /* The :not() selector is to avoid Cart widget styling to affect any widgets used in the custom Empty Cart template. */
   /*
-   * Disable updating the shipping method or using the the shipping calculator while in the editor. If the
+   * Disable updating the shipping method or using the the shipping calculator while in the editor. If the 
    * document is still a draft (autosaved, or just not published), updating will result in the old non-edited
    * document being returned.
    */
@@ -9967,6 +9967,7 @@ ol.elementor-toc__list-wrapper .elementor-toc__list-item-text-wrapper:before {
   background: var(--dots-hover-color, #000000);
   opacity: 1;
 }
+.elementor-widget-loop-carousel.elementor-in-place-template-editable .swiper,
 .elementor-widget-loop-carousel.elementor-in-place-template-editable .swiper-container {
   overflow: visible;
   overflow-x: clip;

@@ -9939,6 +9939,7 @@ ol.elementor-toc__list-wrapper .elementor-toc__list-item-text-wrapper:before {
   background: var(--dots-hover-color, #000000);
   opacity: 1;
 }
+.elementor-widget-loop-carousel.elementor-in-place-template-editable .swiper,
 .elementor-widget-loop-carousel.elementor-in-place-template-editable .swiper-container {
   overflow: visible;
   overflow-x: clip;

@@ -1,4 +1,4 @@
-/*! pro-elements - v3.11.1 - 15-02-2023 */
+/*! pro-elements - v3.11.3 - 26-02-2023 */
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -1150,7 +1150,7 @@ exports["default"] = ConditionsModal;
 var _react = _interopRequireWildcard(__webpack_require__(/*! react */ "react"));
 var _appUi = __webpack_require__(/*! @elementor/app-ui */ "@elementor/app-ui");
 var _conditions = _interopRequireDefault(__webpack_require__(/*! ./conditions */ "../modules/custom-code/assets/js/admin/publish-metabox/conditions.js"));
-var _conditionsConfig = _interopRequireDefault(__webpack_require__(/*! pro-elements-app-modules/site-editor/assets/js/context/services/conditions-config */ "../core/app/modules/site-editor/assets/js/context/services/conditions-config.js"));
+var _conditionsConfig = _interopRequireDefault(__webpack_require__(/*! elementor-pro-app-modules/site-editor/assets/js/context/services/conditions-config */ "../core/app/modules/site-editor/assets/js/context/services/conditions-config.js"));
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 /**
@@ -1308,8 +1308,8 @@ Object.defineProperty(exports, "__esModule", ({
 exports["default"] = Conditions;
 var _react = _interopRequireDefault(__webpack_require__(/*! react */ "react"));
 var _appUi = __webpack_require__(/*! @elementor/app-ui */ "@elementor/app-ui");
-var _conditions = _interopRequireDefault(__webpack_require__(/*! pro-elements-app-modules/site-editor/assets/js/context/conditions */ "../core/app/modules/site-editor/assets/js/context/conditions.js"));
-var _conditionsRows = _interopRequireDefault(__webpack_require__(/*! pro-elements-app-modules/site-editor/assets/js/pages/conditions/conditions-rows */ "../core/app/modules/site-editor/assets/js/pages/conditions/conditions-rows.js"));
+var _conditions = _interopRequireDefault(__webpack_require__(/*! elementor-pro-app-modules/site-editor/assets/js/context/conditions */ "../core/app/modules/site-editor/assets/js/context/conditions.js"));
+var _conditionsRows = _interopRequireDefault(__webpack_require__(/*! elementor-pro-app-modules/site-editor/assets/js/pages/conditions/conditions-rows */ "../core/app/modules/site-editor/assets/js/pages/conditions/conditions-rows.js"));
 function Conditions(props) {
   const currentTemplateProps = {
       ...props,
@@ -2535,7 +2535,7 @@ module.exports = _interopRequireDefault, module.exports.__esModule = true, modul
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/
+/******/ 	
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -2549,14 +2549,14 @@ module.exports = _interopRequireDefault, module.exports.__esModule = true, modul
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
-/******/
+/******/ 	
 /******/ 		// Execute the module function
 /******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-/******/
+/******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/
+/******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
@@ -2575,7 +2575,7 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports["default"] = void 0;
 var _react = _interopRequireDefault(__webpack_require__(/*! react */ "react"));
-var _component = _interopRequireDefault(__webpack_require__(/*! pro-elements-app-modules/site-editor/assets/js/data/component */ "../core/app/modules/site-editor/assets/js/data/component.js"));
+var _component = _interopRequireDefault(__webpack_require__(/*! elementor-pro-app-modules/site-editor/assets/js/data/component */ "../core/app/modules/site-editor/assets/js/data/component.js"));
 var _conditionsModal = _interopRequireDefault(__webpack_require__(/*! ./publish-metabox/conditions-modal */ "../modules/custom-code/assets/js/admin/publish-metabox/conditions-modal.js"));
 class CustomCode extends elementorModules.Module {
   constructor() {

@@ -1962,6 +1962,7 @@ class Video_Playlist extends Base_Widget {
 					case 'section':
 						playlistItemObject.type = playlistItem.type;
 						playlistItemObject.sectionTitle = playlistItem.title;
+						playlistItemObject.isInnerTabsVisible = false;
 					break;
 				}
 

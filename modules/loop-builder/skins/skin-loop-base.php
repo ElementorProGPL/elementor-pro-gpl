@@ -74,6 +74,7 @@ class Skin_Loop_Base extends Skin_Base {
 		$is_edit_mode = Plugin::elementor()->editor->is_edit_mode();
 		/** @var Loop_Widget_Base $widget */
 		$widget = $this->parent;
+		$current_document = Plugin::elementor()->documents->get_current();
 
 		if ( ! empty( $settings['template_id'] ) ) {
 			$this->maybe_add_load_more_wrapper_class();
@@ -85,6 +86,10 @@ class Skin_Loop_Base extends Skin_Base {
 			$widget->after_skin_render();
 		} else if ( $is_edit_mode ) {
 			$this->render_empty_view();
+		}
+
+		if ( $current_document ) {
+			Plugin::elementor()->documents->switch_to_document( $current_document );
 		}
 	}
 
