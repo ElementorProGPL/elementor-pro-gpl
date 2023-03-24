@@ -483,13 +483,13 @@ class Plugin {
 			$this->notifications = new Notifications_Manager();
 			require_once __DIR__ . '/updater/updater.php';
 			$config = array(
-				'slug'               => 'pro-elements.php',
+				'slug'               => 'elementor-pro-gpl.php',
 				'plugin_basename'    => ELEMENTOR_PRO_PLUGIN_BASE,
-				'proper_folder_name' => 'pro-elements',
-				'api_url'            => 'https://api.github.com/repos/pro-elements/pro-element',
-				'raw_url'            => 'https://raw.githubusercontent.com/pro-elements/pro-element/master',
-				'github_url'         => 'https://github.com/pro-elements/pro-element',
-				'zip_url'            => 'https://github.com/pro-elements/pro-element/archive/v{release_version}.zip',
+				'proper_folder_name' => 'elementor-pro-gpl',
+				'api_url'            => 'https://api.github.com/repos/elementorprogpl/elementorprogpl',
+				'raw_url'            => 'https://raw.githubusercontent.com/elementorprogpl/elementorprogpl/master',
+				'github_url'         => 'https://github.com/elementorprogpl/elementorprogpl',
+				'zip_url'            => 'https://github.com/elementorprogpl/elementorprogpl/archive/v{release_version}.zip',
 				'sslverify'          => true,
 				'requires'           => '5.0',
 				'tested'             => '5.4.2',
@@ -504,13 +504,13 @@ class Plugin {
 
 			require_once __DIR__ . '/updater/updater.php';
 			$config = array(
-				'slug'               => 'pro-elements.php',
+				'slug'               => 'elementor-pro-gpl.php',
 				'plugin_basename'    => ELEMENTOR_PRO_PLUGIN_BASE,
-				'proper_folder_name' => 'pro-elements',
-				'api_url'            => 'https://api.github.com/repos/pro-elements/pro-element',
-				'raw_url'            => 'https://raw.githubusercontent.com/pro-elements/pro-element/master',
-				'github_url'         => 'https://github.com/pro-elements/pro-element',
-				'zip_url'            => 'https://github.com/pro-elements/pro-element/archive/v{release_version}.zip',
+				'proper_folder_name' => 'elementor-pro-gpl',
+				'api_url'            => 'https://api.github.com/repos/elementorprogpl/elementorprogpl',
+				'raw_url'            => 'https://raw.githubusercontent.com/elementorprogpl/elementorprogpl/master',
+				'github_url'         => 'https://github.com/elementorprogpl/elementorprogpl',
+				'zip_url'            => 'https://github.com/elementorprogpl/elementorprogpl/archive/v{release_version}.zip',
 				'sslverify'          => true,
 				'requires'           => '5.0',
 				'tested'             => '5.4.2',
@@ -534,7 +534,7 @@ class Plugin {
 	}
 
 	final public static function get_title() {
-		return esc_html__( 'Pro Elements', 'elementor-pro' );
+		return esc_html__( 'ElementorProGPL', 'elementor-pro' );
 	}
 }
 

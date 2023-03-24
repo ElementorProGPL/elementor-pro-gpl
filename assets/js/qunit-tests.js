@@ -1,4 +1,4 @@
-/*! pro-elements - v3.11.3 - 26-02-2023 */
+/*! elementor-pro-gpl - v3.11.3 - 26-02-2023 */
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
@@ -21,19 +21,19 @@
 // #if true === process.argv.includes( '--development-tests' )
 // import EditorBootstrapCore from 'elementor/tests/qunit/editor/bootstrap';
 // import editorConfig from '../mock/config/editor.json';
-// 
+//
 // import tests from '../tests/';
-// 
+//
 // export class EditorBootstrapPro extends EditorBootstrapCore {
 // 	initialize() {
 // 		window.elementorProEditorConfig = editorConfig;
-// 
+//
 // 		// Load elementor-pro.
 // 		require( 'editor/editor' );
-// 
+//
 // 		super.initialize();
 // 	}
-// 
+//
 // 	runTests() {
 // 		return tests();
 // 	}
@@ -49,7 +49,7 @@
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/ 	
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -63,14 +63,14 @@
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
-/******/ 	
+/******/
 /******/ 		// Execute the module function
 /******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-/******/ 	
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/ 	
+/******/
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.

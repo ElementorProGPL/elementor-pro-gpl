@@ -1,4 +1,4 @@
-# PRO Elements - by PROElements.org
+# ElementorProGPL - by ElementorProGPL
 
 #### 3.11.3 - 2023-02-26
 

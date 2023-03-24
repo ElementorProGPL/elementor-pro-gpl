@@ -32,7 +32,7 @@ class Editor extends App {
 		add_action( 'elementor/editor/after_enqueue_styles', [ $this, 'enqueue_editor_styles' ] );
 		add_action( 'elementor/editor/before_enqueue_scripts', [ $this, 'enqueue_editor_scripts' ] );
 
-		if (!defined('IS_PRO_ELEMENTS'))
+		if (!defined('IS_ELEMENTOR_PRO_GPL'))
 		add_filter( 'elementor/editor/localize_settings', [ $this, 'localize_settings' ] );
 	}
 
