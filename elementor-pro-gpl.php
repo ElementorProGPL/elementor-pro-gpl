@@ -17,11 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 function elementor_pro_gpl_plugin_load_plugin() {
-	if ( ! did_action( 'elementor/loaded' ) ) {
-		add_action( 'admin_notices', 'elementor_pro_gpl_plugin_fail_load' );
 
-		return;
-	}
 	if ( defined( 'ELEMENTOR_PRO_VERSION' ) ) {
 		return;
 	}
@@ -49,6 +45,12 @@ function elementor_pro_gpl_plugin_load_plugin() {
  */
 function elementor_pro_gpl_load_plugin_func() {
 	load_plugin_textdomain( 'elementor-pro' );
+
+	if ( ! did_action( 'elementor/loaded' ) ) {
+		add_action( 'admin_notices', 'elementor_pro_gpl_plugin_fail_load' );
+
+		return;
+	}
 
 	$elementor_version_required = '3.8.0';
 	if ( ! version_compare( ELEMENTOR_VERSION, $elementor_version_required, '>=' ) ) {
