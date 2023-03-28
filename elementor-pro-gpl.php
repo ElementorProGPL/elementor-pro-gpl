@@ -4,7 +4,7 @@
  * Description: This plugin enables GPL features of Elementor Pro: widgets, theme builder, dynamic colors & content, forms & popup builder, and more. Note that ElementorProGPL is not a substitute for Elementor Pro. If you need all Elementor Pro features, including access to pro templates library and dedicated support, we encourage you to <a href="https://elementor.com/pro/" target="_blank">purchase Elementor Pro</a>.
  * Plugin URI: https://github.com/elementorprogpl/elementor-pro-gpl
  * Author: ElementorProGPL
- * Version: 3.11.3
+ * Version: 3.11.7
  * Elementor tested up to: 3.11.0
  * Author URI: https://github.com/elementorprogpl/elementor-pro-gpl
  *
@@ -22,7 +22,7 @@ function elementor_pro_gpl_plugin_load_plugin() {
 		return;
 	}
 
-	define( 'ELEMENTOR_PRO_VERSION', '3.11.3' );
+	define( 'ELEMENTOR_PRO_VERSION', '3.11.7' );
 
 	define( 'ELEMENTOR_PRO__FILE__', __FILE__ );
 	define( 'ELEMENTOR_PRO_PLUGIN_BASE', plugin_basename( ELEMENTOR_PRO__FILE__ ) );

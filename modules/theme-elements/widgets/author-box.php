@@ -789,7 +789,7 @@ class Author_Box extends Base {
 			}
 
 			if ( ! empty( $link_url ) ) {
-				$this->add_render_attribute( 'author_link', 'href', $link_url );
+				$this->add_render_attribute( 'author_link', 'href', esc_url( $link_url ) );
 
 				if ( ! empty( $link_target ) ) {
 					$this->add_render_attribute( 'author_link', 'target', $link_target );
@@ -807,7 +807,7 @@ class Author_Box extends Base {
 		);
 
 		if ( $print_link ) {
-			$this->add_render_attribute( 'button', 'href', $author['posts_url'] );
+			$this->add_render_attribute( 'button', 'href', esc_url( $author['posts_url'] ) );
 		}
 
 		if ( $print_link && ! empty( $settings['button_hover_animation'] ) ) {
@@ -819,7 +819,7 @@ class Author_Box extends Base {
 		}
 
 		if ( $print_avatar ) {
-			$this->add_render_attribute( 'avatar', 'src', $author['avatar'] );
+			$this->add_render_attribute( 'avatar', 'src', esc_url( $author['avatar'] ) );
 
 			if ( ! empty( $author['display_name'] ) ) {
 				$this->add_render_attribute( 'avatar', 'alt', $author['display_name'] );

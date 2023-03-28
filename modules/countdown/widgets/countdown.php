@@ -648,7 +648,7 @@ class Countdown extends Base_Widget {
 				if ( empty( $settings['expire_redirect_url']['url'] ) ) {
 					continue;
 				}
-				$action_to_run['redirect_url'] = $settings['expire_redirect_url']['url'];
+				$action_to_run['redirect_url'] = esc_url( $settings['expire_redirect_url']['url'] );
 			}
 			$actions[] = $action_to_run;
 		}
