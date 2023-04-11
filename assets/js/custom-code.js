@@ -1,4 +1,4 @@
-/*! elementor-pro-gpl - v3.11.7 - 22-03-2023 */
+/*! elementor-pro-gpl - v3.12.2 - 09-04-2023 */
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -530,13 +530,12 @@ class ConditionsConfig {
    * @return {{}|any} -
    */
   getSubIdAutocomplete(sub) {
-    var _controls$;
     const config = this.config[sub];
     if (!config || !('object' === typeof config.controls)) {
       return {};
     }
     const controls = Object.values(config.controls);
-    if (!(controls !== null && controls !== void 0 && (_controls$ = controls[0]) !== null && _controls$ !== void 0 && _controls$.autocomplete)) {
+    if (!controls?.[0]?.autocomplete) {
       return {};
     }
     return controls[0].autocomplete;
